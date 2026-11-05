@@ -2,7 +2,10 @@ import { useEffect, useRef } from 'react'
 import { AnimatePresence, MotionConfig, motion } from 'framer-motion'
 import { useLocation, useOutlet } from 'react-router-dom'
 import { Footer } from './Footer'
-import { Header } from './Header'
+import { GlitchWipe, playGlitchWipe } from './GlitchWipe'
+import { GridLines } from './GridLines'
+import { IntroParticles } from './IntroParticles'
+import { TopBar } from './TopBar'
 import { TopographyBackground } from './TopographyBackground'
 
 const scrollToLocation = (hash: string) => {
@@ -11,7 +14,10 @@ const scrollToLocation = (hash: string) => {
   else window.scrollTo(0, 0)
 }
 
-/** Framer Motion: плавная смена страниц. Старая уходит, новая появляется, затем прокрутка к началу или якорю. */
+/**
+ * Каркас всех страниц: фон Topography, сетка, HUD-шапка, глитч-полоса при переходах.
+ * Смена страниц: старая гаснет, поверх пролетает глитч-полоса, новая появляется.
+ */
 export function Layout() {
   const outlet = useOutlet()
   const { pathname, hash } = useLocation()
@@ -19,9 +25,9 @@ export function Layout() {
   const hashRef = useRef(hash)
   hashRef.current = hash
 
-  // Якорь на той же странице (например, клик по ссылке внутри страницы)
   useEffect(() => {
-    if (prevPath.current === pathname) scrollToLocation(hash)
+    if (prevPath.current !== pathname) playGlitchWipe(1)
+    else scrollToLocation(hash) // якорь на той же странице
     prevPath.current = pathname
   }, [pathname, hash])
 
@@ -32,18 +38,21 @@ export function Layout() {
 
   return (
     <MotionConfig reducedMotion="user">
+      <IntroParticles />
       <TopographyBackground />
+      <GridLines />
+      <GlitchWipe />
       <a className="skip" href="#main">Перейти к содержимому</a>
-      <Header />
+      <TopBar />
       <main id="main">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={pathname}
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.22, ease: 'easeOut' }}
-            onAnimationStart={(def) => { if (typeof def === 'object' && 'y' in def) scrollToLocation(hashRef.current) }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            onAnimationStart={(def) => { if (typeof def === 'object' && (def as { opacity?: number }).opacity === 1) scrollToLocation(hashRef.current) }}
           >
             {outlet}
           </motion.div>

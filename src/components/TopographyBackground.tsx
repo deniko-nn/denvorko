@@ -1,4 +1,5 @@
 import { useEffect, useState, type ComponentType } from 'react'
+import { useMotionOff } from '../animations/motion'
 import type { TopographyProps } from '../animations/reactbits/Topography'
 
 /**
@@ -8,23 +9,13 @@ import type { TopographyProps } from '../animations/reactbits/Topography'
  */
 export function TopographyBackground() {
   const [Topography, setTopography] = useState<ComponentType<TopographyProps> | null>(null)
-  const [light, setLight] = useState(false)
+  const motionOff = useMotionOff()
   const [dpr, setDpr] = useState(1)
 
   useEffect(() => {
     let alive = true
     import('../animations/reactbits/Topography').then((m) => alive && setTopography(() => m.default))
     return () => { alive = false }
-  }, [])
-
-  // Тема сайта: в светлой теме линии рисуются «чернилами» на светлом фоне
-  useEffect(() => {
-    const root = document.documentElement
-    const sync = () => setLight(root.dataset.theme === 'light')
-    sync()
-    const mo = new MutationObserver(sync)
-    mo.observe(root, { attributes: true, attributeFilter: ['data-theme'] })
-    return () => mo.disconnect()
   }, [])
 
   // Экономим видеокарту на телефонах и слабых устройствах
@@ -36,12 +27,11 @@ export function TopographyBackground() {
   }, [])
 
   return (
-    <div className={`topo-bg${Topography ? ' is-ready' : ''}`} aria-hidden="true">
-      {Topography && (
+    <div className={`topo-bg${Topography && !motionOff ? ' is-ready' : ''}`} aria-hidden="true">
+      {Topography && !motionOff && (
         <Topography
-          // Светлая тема: тёмно-коричневые «чернила». Тёмная тема: тот же рисунок тёплым светящимся песочным цветом
-          color={light ? '#251804' : '#e6c88e'}
-          lightMode={light}
+          // Каркасные линии холодного бело-лилового цвета, как на тёмных схемах
+          color="#b9c2ff"
           lineCount={34}
           lineWidth={1.2}
           elevation={0.5}

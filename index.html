@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0e1620">
+<meta name="theme-color" content="#05070f">
 <link rel="icon" href="%BASE_URL%assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="%BASE_URL%assets/img/apple-touch-icon.png">
 <link rel="manifest" href="%BASE_URL%site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@300..750&family=JetBrains+Mono:wght@400;500&display=swap&subset=cyrillic,latin">
-<script>(function(){var r=document.documentElement;r.classList.add('js');try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}r.dataset.theme=t;if(t==='light'){var m=document.querySelector('meta[name=theme-color]');if(m)m.content='#f3f6f7'}}catch(e){}})();</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&family=Nunito+Sans:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap&subset=cyrillic,latin">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{var off=localStorage.getItem('motion')==='off';if(off)r.classList.add('motion-off');if(!off&&!sessionStorage.getItem('intro')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('intro-pending')}catch(e){}})();</script>
 </head>
 <body>
 <div id="root"></div>

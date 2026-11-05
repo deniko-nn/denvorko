@@ -31,6 +31,7 @@ export function Footer() {
         <div className="copyright">
           <span>© {new Date().getFullYear()} denvorko. Все права защищены.</span>
           <span>Работаю удалённо, на русском языке.</span>
+          <a href="#main" className="to-top">Наверх</a>
         </div>
       </div>
     </footer>
