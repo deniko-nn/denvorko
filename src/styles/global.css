@@ -574,6 +574,16 @@ a.row:hover h3 { color: var(--link); }
 .roles dd { color: var(--muted); }
 @media (min-width: 800px) { .roles > div { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); } }
 
+/* ---------- Результаты («Что умею») ---------- */
+.outcomes { border-top: 1px solid var(--line); }
+.outcome { display: grid; gap: 16px clamp(32px, 5vw, 72px); padding-block: clamp(28px, 3.5vw, 44px); border-bottom: 1px solid var(--line); }
+.outcome__body { display: grid; gap: 18px; align-content: start; }
+.outcome__body > p { color: var(--muted); }
+@media (min-width: 900px) { .outcome { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); align-items: start; } }
+.faq--tech { max-width: none; border-top: 0; }
+.faq--tech .answer { max-width: none; display: grid; gap: 24px; }
+.faq--tech .stack-groups { gap: 20px 32px; }
+
 /* ---------- Контакты и форма ---------- */
 .contact-grid { display: grid; gap: clamp(32px, 5vw, 64px); }
 @media (min-width: 960px) { .contact-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); align-items: start; } }
