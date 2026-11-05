@@ -1,17 +1,29 @@
 # denvorko — сайт-портфолио веб-разработчика
 
-Многостраничный статический сайт (HTML, CSS, немного JS). Сборка не нужна: достаточно залить папку на любой хостинг (GitHub Pages, Netlify, Cloudflare Pages, обычный хостинг).
+React 19 + TypeScript + Vite. Страницы собираются в статический HTML (vite-react-ssg), поэтому поисковики видят весь текст и разметку, а React «оживляет» страницу в браузере.
 
-## Страницы
-`index.html` (главная), `services.html` (услуги), `work.html` (работы), `about.html` (обо мне и резюме, печатается в PDF), `contact.html` (контакты и форма), `404.html`.
+## Команды
+```bash
+npm install        # один раз
+npm run dev        # разработка: http://localhost:5173
+npm run build      # сборка в папку dist (со статическими страницами, sitemap и robots)
+npm run typecheck  # проверка типов
+```
+
+## Структура
+- `src/pages` — страницы (Home, Services, Work, About, Contact, NotFound).
+- `src/components` — шапка, подвал, CTA, FAQ, макеты проектов, панель кода, SEO-компонент.
+- `src/data` — тексты и данные: услуги, кейсы, FAQ, Schema.org, контакты. Правьте здесь.
+- `src/styles/global.css` — дизайн-система (токены цветов, отступов, шрифтов в начале файла).
+- `src/animations` — место для анимаций (см. README внутри).
+- `site.config.json` — адрес сайта, почта, Telegram, GitHub.
+- `public` — картинки, манифест. Файл `public/CNAME` с доменом включает режим своего домена.
+
+## Публикация (GitHub Pages)
+Один раз: **Settings → Pages → Source: GitHub Actions**. Дальше каждый пуш в `main` собирает и публикует сайт (`.github/workflows/deploy.yml`).
 
 ## Что заменить перед запуском
-1. Домен `https://denvorko.com` — во всех `<link rel="canonical">`, `og:url`, JSON-LD, `sitemap.xml`, `robots.txt`.
-2. Контакты: `hello@denvorko.com`, `https://t.me/denvorko` (подвал, контакты, форма `data-to`).
-3. Кейсы на `work.html` и главной — описания типовые, замените реальными проектами, ссылками и результатами.
-4. Сроки, условия и проценты на `services.html` — по вашим реальным условиям.
-5. Опыт и навыки на `about.html`, при желании добавьте имя и фото.
-6. Подключите Яндекс Метрику и Search Console, отправьте `sitemap.xml`.
-
-## Дизайн
-Цвета, отступы и радиусы заданы токенами в начале `assets/css/style.css`. Все вертикальные отступы между блоками считаются от `--sec`, поэтому ритм одинаковый на всех страницах. Тема (тёмная и светлая) переключается кнопкой и учитывает системную.
+1. Адрес сайта в `site.config.json` (сейчас адрес GitHub Pages). С своим доменом: поменять `url`, добавить `public/CNAME`.
+2. Почта и Telegram в `site.config.json` (сейчас заглушки).
+3. Кейсы (`src/data/cases.ts`), сроки и условия (`src/data/services.ts`), опыт и навыки (`src/pages/About.tsx`).
+4. Подключить Яндекс Метрику и Search Console, отправить `sitemap.xml`.

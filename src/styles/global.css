@@ -371,8 +371,8 @@ strong { font-weight: 600; }
   color: var(--code-com);
   opacity: 0.6;
 }
-.js .code .ln { opacity: 0; transform: translateY(4px); transition: opacity 0.35s, transform 0.35s; }
-.js .code .ln.on { opacity: 1; transform: none; }
+.code .ln { animation: line-in 0.4s both; animation-delay: calc(var(--i, 0) * 130ms + 250ms); }
+@keyframes line-in { from { opacity: 0; transform: translateY(4px); } }
 .k { color: var(--code-key); }
 .s { color: var(--code-str); }
 .c { color: var(--code-com); }
@@ -662,7 +662,6 @@ a.row:hover h3 { color: var(--link); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  .js .code .ln { opacity: 1; transform: none; }
 }
 
 /* ---------- Печать: страница «Обо мне» = резюме ---------- */
