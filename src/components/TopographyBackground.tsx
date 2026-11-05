@@ -39,15 +39,18 @@ export function TopographyBackground() {
     <div className={`topo-bg${Topography ? ' is-ready' : ''}`} aria-hidden="true">
       {Topography && (
         <Topography
-          color={light ? '#2f56d9' : '#4f7cff'}
+          // Светлая тема: тёмно-коричневые «чернила». Тёмная тема: тот же рисунок тёплым светящимся песочным цветом
+          color={light ? '#251804' : '#e6c88e'}
           lightMode={light}
-          lineCount={22}
+          lineCount={34}
           lineWidth={1.2}
-          elevation={1}
+          elevation={0.5}
           foreground={0.2}
+          scale={1.8}
+          detail={0.15}
           tilt={32}
-          speed={0.25}
-          direction="forward"
+          speed={0.45}
+          direction="right"
           glow={0.6}
           depthOfField={0.4}
           fog={0.35}
@@ -55,6 +58,7 @@ export function TopographyBackground() {
           clickEffect="pulse"
           dpr={dpr}
         />
+
       )}
     </div>
   )

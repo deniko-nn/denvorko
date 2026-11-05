@@ -631,8 +631,8 @@ a.row:hover h3 { color: var(--link); }
 /* Фон Topography: фиксированный слой под всем содержимым */
 .topo-bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; }
 .topo-bg.is-ready { opacity: 0.72; }
-:root[data-theme="light"] .topo-bg.is-ready { opacity: 1; }
-:root[data-theme="light"] .topo-bg::after { background: color-mix(in srgb, var(--bg) 18%, transparent); }
+:root[data-theme="light"] .topo-bg.is-ready { opacity: 0.55; }
+:root[data-theme="light"] .topo-bg::after { background: color-mix(in srgb, var(--bg) 30%, transparent); }
 .topo-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, color-mix(in srgb, var(--bg) 40%, transparent), color-mix(in srgb, var(--bg) 22%, transparent) 40%, color-mix(in srgb, var(--bg) 50%, transparent)); }
 
 /* Скрыто до старта GSAP; если скрипт не загрузился, через 3 секунды всё показывается само */
