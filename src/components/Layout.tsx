@@ -3,6 +3,7 @@ import { AnimatePresence, MotionConfig, motion } from 'framer-motion'
 import { useLocation, useOutlet } from 'react-router-dom'
 import { Footer } from './Footer'
 import { Header } from './Header'
+import { TopographyBackground } from './TopographyBackground'
 
 const scrollToLocation = (hash: string) => {
   const el = hash ? document.getElementById(decodeURIComponent(hash.slice(1))) : null
@@ -31,6 +32,7 @@ export function Layout() {
 
   return (
     <MotionConfig reducedMotion="user">
+      <TopographyBackground />
       <a className="skip" href="#main">Перейти к содержимому</a>
       <Header />
       <main id="main">

@@ -301,25 +301,13 @@ strong { font-weight: 600; }
 
 /* ---------- Секции (единый ритм) ---------- */
 .section { padding-block: var(--sec); }
-.section--alt { background: var(--bg-2); border-block: 1px solid var(--line); }
+.section--alt { background: color-mix(in srgb, var(--bg-2) 72%, transparent); border-block: 1px solid var(--line); }
 .section__head { margin-bottom: var(--head-gap); display: grid; gap: 16px; }
 .section__head .lead { margin: 0; }
 .section__foot { margin-top: var(--head-gap); }
 
 /* ---------- Главная: hero ---------- */
 .hero { position: relative; padding-block: clamp(40px, 6vw, 80px) var(--sec); overflow: hidden; }
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(var(--grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 48px 48px;
-  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 70% 30%, #000 20%, transparent 75%);
-  mask-image: radial-gradient(ellipse 80% 80% at 70% 30%, #000 20%, transparent 75%);
-  pointer-events: none;
-}
 .hero .container { position: relative; display: grid; gap: clamp(36px, 5vw, 56px); align-items: center; }
 .hero__text { display: grid; gap: 24px; justify-items: start; }
 .hero__text .lead { margin: 0; }
@@ -566,18 +554,6 @@ a.row:hover h3 { color: var(--link); }
 
 /* ---------- Внутренние страницы: шапка ---------- */
 .page-hero { padding-block: clamp(40px, 6vw, 80px) var(--sec); position: relative; overflow: hidden; }
-.page-hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(var(--grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 48px 48px;
-  -webkit-mask-image: radial-gradient(ellipse 70% 120% at 85% 0%, #000 10%, transparent 70%);
-  mask-image: radial-gradient(ellipse 70% 120% at 85% 0%, #000 10%, transparent 70%);
-  pointer-events: none;
-}
 .page-hero .container { position: relative; display: grid; gap: 24px; justify-items: start; }
 .page-hero h1 { max-width: 20ch; }
 .crumbs { font-size: 0.9rem; color: var(--muted); }
@@ -637,7 +613,7 @@ a.row:hover h3 { color: var(--link); }
 .next { margin-top: var(--head-gap); }
 
 /* ---------- Подвал ---------- */
-.site-footer { border-top: 1px solid var(--line); background: var(--bg-2); padding-block: var(--sec) 32px; }
+.site-footer { border-top: 1px solid var(--line); background: color-mix(in srgb, var(--bg-2) 82%, transparent); padding-block: var(--sec) 32px; }
 .footer-grid { display: grid; gap: var(--gap) 48px; }
 @media (min-width: 800px) { .footer-grid { grid-template-columns: 1.4fr 1fr 1fr; } }
 .footer-grid h2 { font-size: 1rem; font-weight: 600; letter-spacing: 0; margin-bottom: 14px; }
@@ -652,6 +628,13 @@ a.row:hover h3 { color: var(--link); }
 .notfound .big { font-family: var(--mono); color: var(--accent); font-size: clamp(3rem, 12vw, 7rem); font-weight: 500; line-height: 1; }
 
 /* ---------- Анимации ---------- */
+/* Фон Topography: фиксированный слой под всем содержимым */
+.topo-bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; }
+.topo-bg.is-ready { opacity: 0.72; }
+:root[data-theme="light"] .topo-bg.is-ready { opacity: 1; }
+:root[data-theme="light"] .topo-bg::after { background: color-mix(in srgb, var(--bg) 18%, transparent); }
+.topo-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, color-mix(in srgb, var(--bg) 40%, transparent), color-mix(in srgb, var(--bg) 22%, transparent) 40%, color-mix(in srgb, var(--bg) 50%, transparent)); }
+
 /* Скрыто до старта GSAP; если скрипт не загрузился, через 3 секунды всё показывается само */
 .js .gsap-hide { opacity: 0; animation: show-fallback 0.01s 3s forwards; }
 .js .split-parent:not(.split-ready) { visibility: hidden; animation: show-fallback-v 0.01s 3s forwards; }
@@ -682,7 +665,7 @@ a.row:hover h3 { color: var(--link); }
     --text: #000; --muted: #333; --accent: #0b6657; --link: #0b6657; --grid: transparent;
   }
   body { font-size: 11pt; background: #fff; color: #000; }
-  .site-header, .site-footer, .cta, .btn-row, .skip, .no-print, .page-hero::before { display: none !important; }
+  .topo-bg, .site-header, .site-footer, .cta, .btn-row, .skip, .no-print, .page-hero::before { display: none !important; }
   .section, .page-hero { padding-block: 16pt; }
   .section--alt { background: #fff; border: 0; }
   a { color: #000; text-decoration: none; }
