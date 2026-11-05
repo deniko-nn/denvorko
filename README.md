@@ -27,3 +27,6 @@ npm run typecheck  # проверка типов
 2. Почта и Telegram в `site.config.json` (сейчас заглушки).
 3. Кейсы (`src/data/cases.ts`), сроки и условия (`src/data/services.ts`), опыт и навыки (`src/pages/About.tsx`).
 4. Подключить Яндекс Метрику и Search Console, отправить `sitemap.xml`.
+
+## Патч vite-react-ssg
+Папка `patches/` содержит правку библиотеки (применяется автоматически после `npm install` через `patch-package`): при ошибке загрузки служебного JSON сайт не падает, а продолжает работать. Без неё пользователь с закэшированной старой версией после нового деплоя видел «Unexpected Application Error».

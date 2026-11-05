@@ -1,0 +1,27 @@
+diff --git a/node_modules/vite-react-ssg/dist/index.mjs b/node_modules/vite-react-ssg/dist/index.mjs
+index f07d289..ecf560c 100644
+--- a/node_modules/vite-react-ssg/dist/index.mjs
++++ b/node_modules/vite-react-ssg/dist/index.mjs
+@@ -101,7 +101,7 @@ function ViteReactSSG(routerOptions, fn, options = {}) {
+     if (!isSSR) {
+       return route;
+     }
+-    const loader = async ({ request }) => {
++    const loaderImpl = async ({ request }) => {
+       if (process.env.NODE_ENV === "development") {
+         const routeId = encodeURIComponent(route.id);
+         const dataQuery = `_data=${routeId}`;
+@@ -136,6 +136,13 @@ function ViteReactSSG(routerOptions, fn, options = {}) {
+         return routeData ?? null;
+       }
+     };
++    const loader = async (args) => {
++      try {
++        return await loaderImpl(args);
++      } catch (e) {
++        return null;
++      }
++    };
+     route.loader = loader;
+     return route;
+   }
