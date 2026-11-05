@@ -551,6 +551,19 @@ html.menu-open body { overflow: hidden; }
   .hero__scene { order: 0; }
 }
 .hero__slides { display: grid; width: 100%; }
+.slide .btn-row { flex-wrap: wrap; gap: 10px; }
+.slide .btn { flex: 1 1 auto; }
+@media (min-width: 960px) { .slide .btn { flex: 0 0 auto; } .slide .btn-row { gap: 12px; } }
+/* телефон: обе кнопки в одном ряду и всегда на первом экране */
+@media (max-width: 959px) {
+  .slide .btn { min-height: 50px; padding: 0 14px; font-size: 0.72rem; letter-spacing: 0.14em; }
+  .slide .btn-primary { padding-left: 26px; }
+  .slide-title { font-size: clamp(1.25rem, 0.9rem + 1.9vw, 1.7rem); letter-spacing: 0.12em; }
+  .hero { padding-bottom: 28px; }
+  .hero-hud { display: none; }
+  .wf { height: clamp(130px, 22svh, 250px); }
+}
+@media (max-width: 959px) and (max-height: 700px) { .wf { height: 92px; } .slide { gap: 12px; } .hero__body { gap: 12px; } .slide-title { font-size: 1.1rem; } .slide__text { font-size: 0.88rem; line-height: 1.5; } }
 .slide { grid-area: 1 / 1; display: grid; gap: 22px; justify-items: start; align-content: start; }
 .slide .btn-row { margin-top: 6px; }
 .slide-title { font-family: var(--font-display); font-weight: 300; text-transform: uppercase; letter-spacing: 0.15em; font-size: clamp(1.5rem, 0.9rem + 2.5vw, 2.9rem); line-height: 1.22; }
@@ -640,3 +653,8 @@ html.motion-off *, html.motion-off *::before, html.motion-off *::after { animati
 html.motion-off .grid-lines { opacity: 0.6; }
 @media (prefers-reduced-motion: reduce) { .wf__idle { animation: none; transform: rotateY(-10deg) rotateX(5deg); } .hud-wave .wave { animation: none; transform: scaleY(0.6); } }
 @media print { .grid-lines, .glitch-wipe, .intro-curtain, .hud-top, .menu, .hero-hud { display: none !important; } }
+
+/* на телефоне нижняя строка первого экрана не нужна: ссылки есть в меню и подвале */
+@media (max-width: 959px) { .hero-hud { display: none; } }
+@media (max-width: 959px) and (max-height: 660px) { .wf { height: 64px; } .hero-pager { padding: 10px 18px; } .round-arrow { width: 44px; height: 44px; } }
+@media (max-width: 959px) and (max-height: 600px) { .wf { display: none; } }
