@@ -1,3 +1,6 @@
 export { useIsomorphicLayoutEffect, useReducedMotion } from './hooks'
-// Сюда добавляйте экспорт новых анимаций:
-// export { HeroWaves } from './HeroWaves'
+export { gsap, ScrollTrigger, useGSAP, prefersReducedMotion } from './gsap'
+export { useHeroSequence } from './HeroSequence'
+export { default as SplitText } from './reactbits/SplitText'
+export { default as SpotlightCard } from './reactbits/SpotlightCard'
+export { default as Magnet } from './reactbits/Magnet'

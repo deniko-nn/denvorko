@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
-import type { ReactNode } from 'react'
+import { useRef, type CSSProperties, type ReactNode } from 'react'
+import { gsap, prefersReducedMotion, useGSAP } from '../animations/gsap'
+import SpotlightCard from '../animations/reactbits/SpotlightCard'
 import { site } from '../data/site'
 import type { Qa } from '../data/faq'
 
@@ -40,18 +42,22 @@ export function Faq({ items }: { items: Qa[] }) {
   )
 }
 
+/** React Bits SpotlightCard: подсветка в цвет акцента следует за курсором. */
 export function Cta({ title, text, label = 'Обсудить проект' }: { title: string; text: string; label?: string }) {
+  const vars = { '--spotlight-card-surface': 'var(--surface)', '--spotlight-card-border': 'var(--line)', '--spotlight-card-shadow': 'none' } as CSSProperties
   return (
     <section className="section" aria-labelledby="cta-title">
       <div className="container">
-        <div className="cta">
-          <h2 id="cta-title">{title}</h2>
-          <p>{text}</p>
-          <div className="btn-row">
-            <Link className="btn btn-primary" to="/contact">{label}</Link>
-            <a className="btn btn-ghost" href={site.telegram} rel="noopener">Написать в Telegram</a>
+        <SpotlightCard className="cta" spotlightColor="var(--accent)" intensity={0.22} spotlightSize={320} style={vars}>
+          <div className="cta__inner">
+            <h2 id="cta-title">{title}</h2>
+            <p>{text}</p>
+            <div className="btn-row">
+              <Link className="btn btn-primary" to="/contact">{label}</Link>
+              <a className="btn btn-ghost" href={site.telegram} rel="noopener">Написать в Telegram</a>
+            </div>
           </div>
-        </div>
+        </SpotlightCard>
       </div>
     </section>
   )
@@ -65,9 +71,17 @@ export function Chips({ items, label }: { items: string[]; label?: string }) {
   )
 }
 
+/** GSAP ScrollTrigger: акцентная линия над каждым шагом прорисовывается, когда шаг попадает в экран. */
 export function Steps({ items }: { items: { title: string; text: string }[] }) {
+  const ref = useRef<HTMLOListElement>(null)
+  useGSAP(() => {
+    if (prefersReducedMotion()) return
+    gsap.utils.toArray<HTMLElement>('li', ref.current).forEach((li, i) => {
+      gsap.fromTo(li, { '--p': 0 }, { '--p': 1, duration: 0.9, ease: 'power2.out', delay: (i % 4) * 0.08, scrollTrigger: { trigger: li, start: 'top 88%', once: true } })
+    })
+  }, { scope: ref })
   return (
-    <ol className="steps">
+    <ol className="steps" ref={ref}>
       {items.map((s) => (
         <li key={s.title}><h3><span className="num" />{s.title}</h3><p>{s.text}</p></li>
       ))}

@@ -1,4 +1,9 @@
+import { useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { useHeroSequence } from '../animations/HeroSequence'
+import Magnet from '../animations/reactbits/Magnet'
+import SplitText from '../animations/reactbits/SplitText'
+import { HoverLift } from '../components/HoverLift'
 import { CodePanel } from '../components/CodePanel'
 import { mockups } from '../components/Mockups'
 import { Seo } from '../components/Seo'
@@ -16,6 +21,8 @@ const process = [
 ]
 
 export default function Home() {
+  const hero = useRef<HTMLElement>(null)
+  useHeroSequence(hero)
   return (
     <>
       <Seo
@@ -25,16 +32,18 @@ export default function Home() {
         jsonLd={graph(website, person, business, faqSchema(homeFaq))}
       />
 
-      <section className="hero" aria-labelledby="hero-title">
+      <section className="hero" ref={hero}>
         <div className="container">
           <div className="hero__text">
-            <h1 id="hero-title">Делаю сайты, которые превращают посетителей в клиентов</h1>
-            <p className="lead">Я denvorko, веб-разработчик. Проектирую, рисую и программирую сайты и веб-приложения под ключ. Они быстро открываются, одинаково удобны на телефоне и компьютере, понятны поисковым системам и ведут человека к заявке.</p>
-            <div className="btn-row">
-              <Link className="btn btn-primary" to="/contact">Обсудить проект</Link>
+            {/* React Bits SplitText (на GSAP): заголовок появляется по словам */}
+            <SplitText tag="h1" text="Делаю сайты, которые превращают посетителей в клиентов" splitType="words" effect="blur" trigger="load" delay={70} duration={0.9} textAlign="left" />
+            <p className="lead hero-item gsap-hide">Я denvorko, веб-разработчик. Проектирую, рисую и программирую сайты и веб-приложения под ключ. Они быстро открываются, одинаково удобны на телефоне и компьютере, понятны поисковым системам и ведут человека к заявке.</p>
+            <div className="btn-row hero-item gsap-hide">
+              {/* React Bits Magnet: кнопка слегка тянется к курсору */}
+              <Magnet magnetStrength={0.25} maxOffset={10} padding={40}><Link className="btn btn-primary" to="/contact">Обсудить проект</Link></Magnet>
               <Link className="btn btn-ghost" to="/work">Смотреть работы</Link>
             </div>
-            <dl className="facts">
+            <dl className="facts hero-item gsap-hide">
               <div><dt>Отвечаю за один рабочий день</dt><dd>Один контакт на весь проект, без цепочки менеджеров.</dd></div>
               <div><dt>Дизайн и код у одного человека</dt><dd>Макет и вёрстка совпадают до пикселя, правки идут быстрее.</dd></div>
               <div><dt>SEO и скорость заложены сразу</dt><dd>Не надстройка после запуска, а часть архитектуры.</dd></div>
@@ -75,7 +84,7 @@ export default function Home() {
               const Shot = mockups[c.mockup]
               return (
                 <Link key={c.id} className="case-mini" to={{ pathname: '/work', hash: `#${c.id}` }}>
-                  <div className="frame"><Shot /></div>
+                  <HoverLift className="frame"><Shot /></HoverLift>
                   <h3>{c.name}</h3><p>{c.short}</p>
                 </Link>
               )

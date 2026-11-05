@@ -1,4 +1,5 @@
-import { useState, type FormEvent } from 'react'
+import { useRef, useState, type FormEvent } from 'react'
+import { CSSTransition } from 'react-transition-group'
 import { Seo } from '../components/Seo'
 import { PageHero, Steps } from '../components/ui'
 import { breadcrumb, business, graph } from '../data/schema'
@@ -13,6 +14,7 @@ const next = [
 
 export default function Contact() {
   const [status, setStatus] = useState('')
+  const statusRef = useRef<HTMLParagraphElement>(null)
 
   /** Собираем письмо и открываем почтовую программу. Замените на отправку в API, когда появится бэкенд. */
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -59,7 +61,12 @@ export default function Contact() {
                   <textarea id="message" name="message" required />
                   <span className="hint">Чем занимается бизнес, какая цель у сайта, есть ли примеры, которые нравятся.</span></div>
                 <button className="btn btn-primary" type="submit">Отправить заявку</button>
-                <p className="form-status" role="status">{status}</p>
+                <div role="status" className="form-status-wrap">
+                  {/* React Transition Group: сообщение мягко появляется после отправки */}
+                  <CSSTransition in={!!status} timeout={300} classNames="fade" unmountOnExit nodeRef={statusRef}>
+                    <p className="form-status" ref={statusRef}>{status}</p>
+                  </CSSTransition>
+                </div>
                 <p className="form-note">Нажимая кнопку, вы откроете письмо с заполненными данными в вашей почтовой программе. Данные используются только для ответа на заявку.</p>
               </form>
             </div>

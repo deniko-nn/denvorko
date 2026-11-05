@@ -237,7 +237,9 @@ strong { font-weight: 600; }
   transition: color 0.2s, background-color 0.2s;
 }
 .nav-list a:hover { color: var(--text); background: var(--surface); }
-.nav-list a[aria-current="page"] { color: var(--text); box-shadow: inset 0 -2px 0 var(--accent); border-radius: 0; }
+.nav-list a { position: relative; }
+.nav-list a[aria-current="page"] { color: var(--text); }
+.nav-ind { position: absolute; left: 14px; right: 14px; bottom: 2px; height: 2px; border-radius: 1px; background: var(--accent); }
 
 .header-tools { display: flex; align-items: center; gap: 10px; }
 .header-tools .btn { min-height: 44px; padding: 0 18px; font-size: 0.95rem; }
@@ -281,9 +283,12 @@ strong { font-weight: 600; }
   .js .site-nav.open { opacity: 1; transform: none; visibility: visible; }
   .nav-list { flex-direction: column; align-items: stretch; gap: 0; }
   .nav-list a { padding: 16px 4px; font-size: 1.15rem; border-bottom: 1px solid var(--line); border-radius: 0; color: var(--text); }
-  .nav-list a[aria-current="page"] { box-shadow: none; color: var(--link); }
+  .nav-list a[aria-current="page"] { color: var(--link); }
+  .nav-ind { display: none; }
+  .site-nav.menu-enter-active .nav-list li,
+  .site-nav.menu-enter-done .nav-list li { animation: menu-item 0.35s both; animation-delay: calc(var(--i, 0) * 50ms + 80ms); }
   .nav-list li:last-child a { border-bottom: 0; }
-  .nav-list a.btn { margin-top: 16px; width: 100%; padding: 0 24px; border: 0; border-radius: var(--r-m); color: var(--on-accent); font-size: 1.05rem; }
+  .nav-list a.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 50px; margin-top: 16px; width: 100%; padding: 0 24px; border: 0; border-radius: var(--r-m); color: var(--on-accent); font-size: 1.05rem; }
   /* без JS: компактная строка ссылок */
   html:not(.js) .site-header { height: auto; position: static; }
   html:not(.js) .site-header .container { flex-wrap: wrap; padding-block: 10px; }
@@ -291,6 +296,8 @@ strong { font-weight: 600; }
   html:not(.js) .nav-list a { padding: 8px 10px; border: 0; }
 }
 @media (min-width: 880px) { .nav-cta { display: none; } }
+
+@keyframes menu-item { from { opacity: 0; transform: translateY(-6px); } }
 
 /* ---------- Секции (единый ритм) ---------- */
 .section { padding-block: var(--sec); }
@@ -371,8 +378,6 @@ strong { font-weight: 600; }
   color: var(--code-com);
   opacity: 0.6;
 }
-.code .ln { animation: line-in 0.4s both; animation-delay: calc(var(--i, 0) * 130ms + 250ms); }
-@keyframes line-in { from { opacity: 0; transform: translateY(4px); } }
 .k { color: var(--code-key); }
 .s { color: var(--code-str); }
 .c { color: var(--code-com); }
@@ -445,7 +450,7 @@ a.row:hover h3 { color: var(--link); }
   position: absolute;
   top: -2px;
   left: 0;
-  width: 44px;
+  width: calc(var(--p, 1) * 100%);
   height: 2px;
   background: var(--accent);
 }
@@ -543,17 +548,7 @@ a.row:hover h3 { color: var(--link); }
 .faq .answer { padding: 0 0 24px; color: var(--muted); max-width: 66ch; }
 
 /* ---------- CTA ---------- */
-.cta {
-  position: relative;
-  overflow: hidden;
-  display: grid;
-  gap: 24px;
-  justify-items: start;
-  padding: clamp(28px, 5vw, 64px);
-  border: 1px solid var(--line);
-  border-radius: var(--r-l);
-  background: var(--surface);
-}
+.cta { padding: clamp(28px, 5vw, 64px); border-radius: var(--r-l); }
 .cta::before {
   content: "";
   position: absolute;
@@ -566,8 +561,8 @@ a.row:hover h3 { color: var(--link); }
   mask-image: linear-gradient(110deg, transparent 30%, #000);
   pointer-events: none;
 }
-.cta > * { position: relative; }
-.cta p { color: var(--muted); }
+.cta__inner { position: relative; display: grid; gap: 24px; justify-items: start; }
+.cta__inner p { color: var(--muted); }
 
 /* ---------- Внутренние страницы: шапка ---------- */
 .page-hero { padding-block: clamp(40px, 6vw, 80px) var(--sec); position: relative; overflow: hidden; }
@@ -656,12 +651,28 @@ a.row:hover h3 { color: var(--link); }
 .notfound { min-height: 60vh; display: grid; align-items: center; }
 .notfound .big { font-family: var(--mono); color: var(--accent); font-size: clamp(3rem, 12vw, 7rem); font-weight: 500; line-height: 1; }
 
+/* ---------- Анимации ---------- */
+/* Скрыто до старта GSAP; если скрипт не загрузился, через 3 секунды всё показывается само */
+.js .gsap-hide { opacity: 0; animation: show-fallback 0.01s 3s forwards; }
+.js .split-parent:not(.split-ready) { visibility: hidden; animation: show-fallback-v 0.01s 3s forwards; }
+@keyframes show-fallback { to { opacity: 1; } }
+@keyframes show-fallback-v { to { visibility: visible; } }
+.hero h1.split-parent { padding-bottom: 0.06em; }
+.fade-enter { opacity: 0; transform: translateY(-4px); }
+.fade-enter-active { opacity: 1; transform: none; transition: opacity 0.3s, transform 0.3s; }
+.fade-exit { opacity: 1; }
+.fade-exit-active { opacity: 0; transition: opacity 0.2s; }
+.code-wrap { perspective: 1000px; }
+.code { will-change: transform; }
+
 /* ---------- Прочее ---------- */
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
+  .js .gsap-hide { opacity: 1; }
+  .js .split-parent:not(.split-ready) { visibility: visible; }
 }
 
 /* ---------- Печать: страница «Обо мне» = резюме ---------- */

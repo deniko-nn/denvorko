@@ -1,3 +1,4 @@
+import { HoverLift } from '../components/HoverLift'
 import { mockups } from '../components/Mockups'
 import { Seo } from '../components/Seo'
 import { Chips, Cta, PageHero } from '../components/ui'
@@ -25,7 +26,7 @@ export default function Work() {
             const Shot = mockups[c.mockup]
             return (
               <article className="case" id={c.id} key={c.id}>
-                <div className="case__fig"><Shot /></div>
+                <HoverLift className="case__fig"><Shot /></HoverLift>
                 <div className="case__body">
                   <div>
                     <p className="muted">{c.kind}</p>
