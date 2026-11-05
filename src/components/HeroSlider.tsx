@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import Magnet from '../animations/reactbits/Magnet'
@@ -15,6 +15,25 @@ const slides = [
   { title: 'Дизайн и код у одного человека', text: 'Макет и вёрстка совпадают до пикселя, правки идут быстрее.', more: { to: '/work', label: 'Работы' } },
   { title: 'SEO и скорость заложены сразу', text: 'Не надстройка после запуска, а часть архитектуры.', more: { to: '/services', label: 'Услуги' } },
 ]
+
+/** Круглая стрелка: при клике стрелка «пролетает» сквозь круг и возвращается, состояние не залипает. */
+function RoundArrow({ dir, onClick, label }: { dir: 1 | -1; onClick: () => void; label: string }) {
+  const [go, setGo] = useState(false)
+  useEffect(() => {
+    if (!go) return
+    const t = setTimeout(() => setGo(false), 520)
+    return () => clearTimeout(t)
+  }, [go])
+  return (
+    <button className={`round-arrow${dir === -1 ? ' round-arrow--prev' : ''}${go ? ' is-go' : ''}`} type="button" aria-label={label}
+      onClick={() => { setGo(true); onClick() }}>
+      <svg viewBox="0 0 40 12" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d={dir === 1 ? 'M1 6h37M33 1.5L38 6l-5 4.5' : 'M39 6H2M7 1.5L2 6l5 4.5'} />
+      </svg>
+    </button>
+  )
+}
+
 const pad = (n: number) => String(n).padStart(2, '0')
 
 /**
@@ -49,12 +68,8 @@ export function HeroSlider() {
               <b>{pad(i + 1)}</b><i /><span>{pad(slides.length)}</span>
             </div>
             <div className="hero-arrows">
-              <button className="round-arrow round-arrow--prev" type="button" onClick={() => go(i - 1, -1)} aria-label="Предыдущий слайд">
-                <svg viewBox="0 0 40 12" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true"><path d="M40 6H2M7 1L2 6l5 5" /></svg>
-              </button>
-              <button className="round-arrow" type="button" onClick={() => go(i + 1, 1)} aria-label="Следующий слайд">
-                <svg viewBox="0 0 40 12" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true"><path d="M0 6h38M33 1l5 5-5 5" /></svg>
-              </button>
+              <RoundArrow dir={-1} onClick={() => go(i - 1, -1)} label="Предыдущий слайд" />
+              <RoundArrow dir={1} onClick={() => go(i + 1, 1)} label="Следующий слайд" />
             </div>
           </div>
           {/* Все слайды лежат в одной ячейке сетки: высота по самому высокому, тексты есть в HTML */}

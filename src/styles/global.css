@@ -151,10 +151,15 @@ strong { font-weight: 600; }
 /* Белая кнопка с жёлтой планкой слева: при наведении планка заливает кнопку */
 .btn-primary { background: #fff; color: var(--on-accent); padding-left: 38px; }
 .btn-primary::before { content: ""; position: absolute; z-index: -1; left: 0; top: 0; bottom: 0; width: 10px; background: var(--accent); transition: width 0.35s cubic-bezier(0.7, 0, 0.2, 1); }
-.btn-primary:hover { text-decoration: none; }
-.btn-primary:hover::before { width: 100%; }
+.btn-primary:hover, .btn-ghost:hover { text-decoration: none; }
 .btn-ghost { background: transparent; color: var(--text); border-color: rgba(255, 255, 255, 0.28); }
-.btn-ghost:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+.btn { -webkit-tap-highlight-color: transparent; }
+.btn-primary:active::before { width: 100%; }
+.btn-ghost:active { border-color: var(--accent); color: var(--accent); }
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover::before { width: 100%; }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+}
 .btn-row { display: flex; flex-wrap: wrap; gap: 12px; }
 
 /* ---------- Секции (единый ритм) ---------- */
@@ -566,11 +571,17 @@ html.menu-open body { overflow: hidden; }
 /* Управление слайдами: плашка и круглые стрелки */
 .hero-controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; }
 .hero-arrows { display: flex; gap: 12px; }
-.round-arrow { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: transparent; border: 1px solid rgba(255, 255, 255, 0.4); color: var(--text); cursor: pointer; transition: border-color 0.25s, color 0.25s; }
-.round-arrow svg { width: 30px; height: 10px; transition: transform 0.3s; }
-.round-arrow:hover { border-color: var(--accent); color: var(--accent); }
-.round-arrow:hover svg { transform: translateX(5px); }
-.round-arrow--prev:hover svg { transform: translateX(-5px); }
+.round-arrow { position: relative; overflow: hidden; display: grid; place-items: center; width: 52px; height: 52px; padding: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.32); color: var(--text); cursor: pointer; -webkit-tap-highlight-color: transparent; transition: border-color 0.25s, color 0.25s, background-color 0.25s, transform 0.15s; }
+.round-arrow svg { width: 30px; height: 10px; }
+.round-arrow:active { transform: scale(0.93); border-color: var(--accent); color: var(--accent); background: rgba(255, 225, 26, 0.1); }
+.round-arrow.is-go svg { animation: arrow-next 0.5s cubic-bezier(0.6, 0, 0.3, 1); }
+.round-arrow--prev.is-go svg { animation-name: arrow-prev; }
+@keyframes arrow-next { 0% { transform: translateX(0); opacity: 1; } 45% { transform: translateX(26px); opacity: 0; } 46% { transform: translateX(-26px); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+@keyframes arrow-prev { 0% { transform: translateX(0); opacity: 1; } 45% { transform: translateX(-26px); opacity: 0; } 46% { transform: translateX(26px); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+/* наведение только там, где есть мышь: на телефоне состояние не «залипает» после касания */
+@media (hover: hover) and (pointer: fine) {
+  .round-arrow:hover { border-color: var(--accent); color: var(--accent); background: rgba(255, 225, 26, 0.06); }
+}
 .hero-pager { padding: 14px 24px; }
 @media (min-width: 960px) {
   .hero-controls { justify-content: flex-start; }
