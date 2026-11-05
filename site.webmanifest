@@ -1,0 +1,21 @@
+{
+  "name": "denvorko — веб-разработчик",
+  "short_name": "denvorko",
+  "lang": "ru",
+  "start_url": "./",
+  "display": "browser",
+  "background_color": "#0e1620",
+  "theme_color": "#0e1620",
+  "icons": [
+    {
+      "src": "assets/img/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "assets/img/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
