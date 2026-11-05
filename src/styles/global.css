@@ -536,10 +536,11 @@ html.menu-open body { overflow: hidden; }
 .menu__contacts a:hover { color: var(--accent); }
 
 /* Первый экран */
-.hero { position: relative; min-height: 100svh; display: grid; align-items: center; padding: calc(var(--nav-h) + 20px) 0 112px; overflow: hidden; }
+.hero { position: relative; min-height: 100svh; display: grid; align-items: center; padding: calc(var(--nav-h) + 8px) 0 88px; overflow: hidden; }
+@media (min-width: 960px) { .hero { padding: calc(var(--nav-h) + 20px) 0 112px; } }
 .hero__inner > * { min-width: 0; }
 .hero__inner { position: relative; display: grid; gap: clamp(20px, 4vw, 48px); align-items: center; }
-.hero__body { display: grid; gap: 28px; justify-items: start; align-content: center; }
+.hero__body { display: grid; gap: 20px; justify-items: start; align-content: center; }
 @media (min-width: 960px) {
   .hero__inner { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); padding-right: 96px; }
   .hero__scene { order: 0; }
@@ -562,12 +563,24 @@ html.menu-open body { overflow: hidden; }
 .hero-pager b { color: var(--accent); font-weight: 500; }
 .hero-pager i { display: block; width: 30px; height: 1px; background: var(--text); }
 
-/* Круглая стрелка */
-.round-arrow { display: grid; place-items: center; justify-self: start; width: 72px; height: 72px; border-radius: 50%; background: transparent; border: 1px solid rgba(255, 255, 255, 0.4); color: var(--text); cursor: pointer; transition: border-color 0.25s, color 0.25s, background-color 0.25s; }
-.round-arrow svg { width: 38px; height: 12px; transition: transform 0.3s; }
+/* Управление слайдами: плашка и круглые стрелки */
+.hero-controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; }
+.hero-arrows { display: flex; gap: 12px; }
+.round-arrow { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: transparent; border: 1px solid rgba(255, 255, 255, 0.4); color: var(--text); cursor: pointer; transition: border-color 0.25s, color 0.25s; }
+.round-arrow svg { width: 30px; height: 10px; transition: transform 0.3s; }
 .round-arrow:hover { border-color: var(--accent); color: var(--accent); }
-.round-arrow:hover svg { transform: translateX(6px); }
-@media (min-width: 960px) { .round-arrow { position: absolute; right: var(--gutter); top: 50%; transform: translateY(-50%); } }
+.round-arrow:hover svg { transform: translateX(5px); }
+.round-arrow--prev:hover svg { transform: translateX(-5px); }
+.hero-pager { padding: 14px 24px; }
+@media (min-width: 960px) {
+  .hero-controls { justify-content: flex-start; }
+  /* на компьютере: большая стрелка у правого края, как в оригинале */
+  .hero-arrows { position: absolute; right: var(--gutter); top: 50%; transform: translateY(-50%); }
+  .round-arrow { width: 72px; height: 72px; }
+  .round-arrow svg { width: 38px; height: 12px; }
+  .round-arrow--prev { display: none; }
+  .hero-pager { padding: 16px 32px; }
+}
 
 /* Нижняя строка первого экрана */
 .hero-hud { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 var(--gutter) 26px; }
@@ -578,8 +591,9 @@ html.menu-open body { overflow: hidden; }
 .hero-hud__links a:hover { color: var(--accent); }
 
 /* Каркасная 3D-модель сайта */
-.wf { --k: 1; position: relative; width: 100%; height: clamp(270px, 46svh, 520px); perspective: 1500px; overflow: visible; }
+.wf { --k: 1; position: relative; width: 100%; height: clamp(200px, 28svh, 280px); perspective: 1500px; overflow: visible; }
 .wf__idle { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-style: preserve-3d; animation: wf-idle 16s ease-in-out infinite alternate; }
+@media (min-width: 960px) { .wf { height: clamp(300px, 46svh, 520px); } }
 @keyframes wf-idle { from { transform: rotateY(-18deg) rotateX(15deg); } to { transform: rotateY(-4deg) rotateX(8deg); } }
 .wf__tilt { position: absolute; left: 0; top: 0; width: 0; height: 0; transform-style: preserve-3d; }
 .wf__stage { position: absolute; left: -280px; top: -190px; transform-style: preserve-3d; transform: scale(var(--k)); }

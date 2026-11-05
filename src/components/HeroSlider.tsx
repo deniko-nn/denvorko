@@ -43,8 +43,19 @@ export function HeroSlider() {
         <div className="hero__scene"><WireframeScene active={i} glitch={glitch} /></div>
 
         <div className="hero__body">
-          <div className="hero-pager" aria-label={`Слайд ${i + 1} из ${slides.length}`}>
-            <b>{pad(i + 1)}</b><i /><span>{pad(slides.length)}</span>
+          {/* Управление слайдами всегда рядом с плашкой: на телефоне не нужно скроллить вниз */}
+          <div className="hero-controls">
+            <div className="hero-pager" aria-label={`Слайд ${i + 1} из ${slides.length}`}>
+              <b>{pad(i + 1)}</b><i /><span>{pad(slides.length)}</span>
+            </div>
+            <div className="hero-arrows">
+              <button className="round-arrow round-arrow--prev" type="button" onClick={() => go(i - 1, -1)} aria-label="Предыдущий слайд">
+                <svg viewBox="0 0 40 12" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true"><path d="M40 6H2M7 1L2 6l5 5" /></svg>
+              </button>
+              <button className="round-arrow" type="button" onClick={() => go(i + 1, 1)} aria-label="Следующий слайд">
+                <svg viewBox="0 0 40 12" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true"><path d="M0 6h38M33 1l5 5-5 5" /></svg>
+              </button>
+            </div>
           </div>
           {/* Все слайды лежат в одной ячейке сетки: высота по самому высокому, тексты есть в HTML */}
           <div className="hero__slides" aria-live="polite">
@@ -71,9 +82,6 @@ export function HeroSlider() {
           </div>
         </div>
 
-        <button className="round-arrow" type="button" onClick={() => go(i + 1, 1)} aria-label="Следующий слайд">
-          <svg viewBox="0 0 40 12" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true"><path d="M0 6h38M33 1l5 5-5 5" /></svg>
-        </button>
       </div>
 
       <div className="hero-hud">
