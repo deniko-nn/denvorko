@@ -1,12 +1,10 @@
 import { Link } from 'react-router-dom'
 import { HeroSlider } from '../components/HeroSlider'
-import { HoverLift } from '../components/HoverLift'
+import { ProjectCarousel } from '../components/ProjectCarousel'
 import { Statement } from '../components/Statement'
-import { mockups } from '../components/Mockups'
 import { Seo } from '../components/Seo'
 import { TypedQuote } from '../components/TypedQuote'
 import { Cta, Faq, Steps } from '../components/ui'
-import { cases } from '../data/cases'
 import { homeFaq } from '../data/faq'
 import { business, faqSchema, graph, person, website } from '../data/schema'
 import { homeServiceIds, services } from '../data/services'
@@ -55,21 +53,11 @@ export default function Home() {
       <section className="section" aria-labelledby="work-title">
         <div className="container">
           <div className="section__head">
-            <h2 id="work-title">Проекты, по которым видно мой подход</h2>
-            <p className="lead">Три типовые задачи: сайт для бизнеса, магазин и сервис с личным кабинетом. Подробности о задачах и решениях на странице работ.</p>
+            <h2 id="work-title">Мои проекты</h2>
+            <p className="lead">Листайте карусель и нажмите на карточку: у каждого проекта своя страница с задачей, решением и результатом.</p>
           </div>
-          <div className="cases-grid">
-            {cases.map((c) => {
-              const Shot = mockups[c.mockup]
-              return (
-                <Link key={c.id} className="case-mini" to={{ pathname: '/work', hash: `#${c.id}` }}>
-                  <HoverLift className="frame"><Shot /></HoverLift>
-                  <h3>{c.name}</h3><p>{c.short}</p>
-                </Link>
-              )
-            })}
-          </div>
-          <div className="section__foot"><Link className="btn btn-ghost" to="/work">Все работы и кейсы</Link></div>
+          <ProjectCarousel />
+          <div className="section__foot"><Link className="btn btn-ghost" to="/work">Все проекты</Link></div>
         </div>
       </section>
 

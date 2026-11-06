@@ -14,7 +14,7 @@ export function Footer() {
             <h2>Разделы</h2>
             <ul>
               <li><Link to="/services">Услуги и сроки</Link></li>
-              <li><Link to="/work">Работы и кейсы</Link></li>
+              <li><Link to="/work">Мои проекты</Link></li>
               <li><Link to="/about">Обо мне и резюме</Link></li>
               <li><Link to="/contact">Контакты</Link></li>
             </ul>

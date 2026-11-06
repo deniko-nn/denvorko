@@ -28,6 +28,11 @@ export const breadcrumb = (path: string, name: string) => ({
   ],
 })
 
+export const breadcrumbTrail = (trail: { name: string; path: string }[]) => ({
+  '@type': 'BreadcrumbList',
+  itemListElement: [{ name: 'Главная', path: '/' }, ...trail].map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.name, item: pageUrl(t.path) })),
+})
+
 export const faqSchema = (items: Qa[]) => ({
   '@type': 'FAQPage',
   mainEntity: items.map((i) => ({ '@type': 'Question', name: i.q, acceptedAnswer: { '@type': 'Answer', text: i.a } })),

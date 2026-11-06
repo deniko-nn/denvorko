@@ -1,5 +1,4 @@
-import { HoverLift } from '../components/HoverLift'
-import { mockups } from '../components/Mockups'
+import { ProjectCard } from '../components/ProjectCard'
 import { Seo } from '../components/Seo'
 import { Cta, PageHero } from '../components/ui'
 import { cases } from '../data/cases'
@@ -8,39 +7,23 @@ import { pageUrl, site } from '../data/site'
 
 export default function Work() {
   const collection = {
-    '@type': 'CollectionPage', name: 'Портфолио denvorko', url: pageUrl('/work'),
-    mainEntity: { '@type': 'ItemList', itemListElement: cases.map((c, n) => ({ '@type': 'ListItem', position: n + 1, name: c.name, url: `${pageUrl('/work')}#${c.id}` })) },
+    '@type': 'CollectionPage', name: 'Мои проекты: портфолио denvorko', url: pageUrl('/work'),
+    mainEntity: { '@type': 'ItemList', itemListElement: cases.map((c, n) => ({ '@type': 'ListItem', position: n + 1, name: c.name, url: pageUrl(`/work/${c.id}`) })) },
   }
   return (
     <>
-      <Seo path="/work" title="Портфолио веб-разработчика: проекты и кейсы | denvorko"
-        ogTitle="Портфолио веб-разработчика: проекты и кейсы"
-        description="Портфолио веб-разработчика denvorko: корпоративный сайт, интернет-магазин и личный кабинет. Задачи, решения и технологии каждого проекта."
-        jsonLd={graph(breadcrumb('/work', 'Работы'), collection)} />
-      <PageHero name="Работы" title="Проекты и подход к работе"
-        lead="Три задачи, которые чаще всего приходят от бизнеса: показать себя, продать онлайн и автоматизировать работу. Для каждой рассказываю, что было нужно, что сделал и на чём." />
+      <Seo path="/work" title="Портфолио веб-разработчика: мои проекты и кейсы | denvorko"
+        ogTitle="Мои проекты: портфолио веб-разработчика"
+        description="Мои проекты: корпоративные сайты, интернет-магазины, лендинги, личные кабинеты и ускорение сайтов. У каждого проекта своя страница с задачей, решением и результатом."
+        jsonLd={graph(breadcrumb('/work', 'Мои проекты'), collection)} />
+      <PageHero name="Мои проекты" title="Мои проекты"
+        lead="Шесть типовых задач бизнеса: показать себя, продать онлайн, автоматизировать работу и ускорить сайт. Откройте любой проект, чтобы узнать, что было нужно, что я сделал и что получилось." />
 
-      <section className="section section--alt" aria-label="Кейсы">
+      <section className="section section--alt" aria-label="Проекты">
         <div className="container">
-          {cases.map((c) => {
-            const Shot = mockups[c.mockup]
-            return (
-              <article className="case" id={c.id} key={c.id}>
-                <HoverLift className="case__fig"><Shot /></HoverLift>
-                <div className="case__body">
-                  <div>
-                    <p className="muted">{c.kind}</p>
-                    <h2 style={{ fontSize: 'clamp(1.5rem, 1.1rem + 1.6vw, 2.2rem)', marginTop: 6 }}>{c.name}</h2>
-                  </div>
-                  <dl className="case__meta">
-                    <div><dt>Задача</dt><dd>{c.task}</dd></div>
-                    <div><dt>Решение</dt><dd>{c.solution}</dd></div>
-                    <div><dt>Что получилось</dt><dd>{c.result}</dd></div>
-                  </dl>
-                </div>
-              </article>
-            )
-          })}
+          <div className="pcards">
+            {cases.map((c) => <ProjectCard key={c.id} item={c} />)}
+          </div>
         </div>
       </section>
 

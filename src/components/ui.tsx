@@ -5,22 +5,23 @@ import SpotlightCard from '../animations/reactbits/SpotlightCard'
 import { site } from '../data/site'
 import type { Qa } from '../data/faq'
 
-export function Crumbs({ name }: { name: string }) {
+export function Crumbs({ name, parent }: { name: string; parent?: { name: string; to: string } }) {
   return (
     <nav className="crumbs" aria-label="Хлебные крошки">
       <ol>
         <li><Link to="/">Главная</Link></li>
+        {parent && <li><Link to={parent.to}>{parent.name}</Link></li>}
         <li aria-current="page">{name}</li>
       </ol>
     </nav>
   )
 }
 
-export function PageHero({ name, title, lead, children }: { name: string; title: string; lead: string; children?: ReactNode }) {
+export function PageHero({ name, parent, title, lead, children }: { name: string; parent?: { name: string; to: string }; title: string; lead: string; children?: ReactNode }) {
   return (
     <section className="page-hero">
       <div className="container">
-        <Crumbs name={name} />
+        <Crumbs name={name} parent={parent} />
         <h1>{title}</h1>
         <p className="lead">{lead}</p>
         {children}

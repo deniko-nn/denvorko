@@ -13,7 +13,7 @@ npm run typecheck  # проверка типов
 ## Структура
 - `src/pages` — страницы (Home, Services, Work, About, Contact, NotFound).
 - `src/components` — HUD-шапка и меню, первый экран со слайдами и каркасной моделью, глитч-переходы, подвал, CTA, FAQ, макеты проектов, SEO-компонент.
-- `src/data` — тексты и данные: услуги, кейсы, FAQ, Schema.org, контакты. Правьте здесь.
+- `src/data` — тексты и данные: услуги, кейсы, FAQ, Schema.org, контакты. Правьте здесь. Проекты (`cases.ts`): у каждого своя страница `/work/<id>`; обложки лежат в `public/assets/projects/<id>.svg`.
 - `src/styles/global.css` — дизайн-система в стиле «иммерсивный HUD» (токены цветов, отступов, шрифтов в начале файла). Сайт тёмный, переключения тем нет.
 - `src/animations` — место для анимаций (см. README внутри).
 - `site.config.json` — адрес сайта, почта, Telegram, GitHub.

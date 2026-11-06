@@ -11,7 +11,7 @@ export const site = {
 
 export const nav = [
   { to: '/services', label: 'Услуги' },
-  { to: '/work', label: 'Работы' },
+  { to: '/work', label: 'Мои проекты' },
   { to: '/about', label: 'Обо мне' },
   { to: '/contact', label: 'Контакты' },
 ]
