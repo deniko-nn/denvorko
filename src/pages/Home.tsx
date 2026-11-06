@@ -4,8 +4,8 @@ import { HoverLift } from '../components/HoverLift'
 import { Statement } from '../components/Statement'
 import { mockups } from '../components/Mockups'
 import { Seo } from '../components/Seo'
-import { SideRing } from '../components/SideRing'
-import { Chips, Cta, Faq, Steps } from '../components/ui'
+import { TypedQuote } from '../components/TypedQuote'
+import { Cta, Faq, Steps } from '../components/ui'
 import { cases } from '../data/cases'
 import { homeFaq } from '../data/faq'
 import { business, faqSchema, graph, person, website } from '../data/schema'
@@ -96,22 +96,7 @@ export default function Home() {
             <div><dt>Беру ответственность за результат</dt><dd>Если вижу, что задуманное не сработает, говорю об этом сразу и предлагаю лучший вариант.</dd></div>
           </dl>
           </div>
-          <SideRing text="Сайт, который грузится дольше чайника, клиентов не согреет" />
-        </div>
-      </section>
-
-      <section className="section section--alt" aria-labelledby="stack-title">
-        <div className="container">
-          <div className="section__head">
-            <h2 id="stack-title">Технологии, на которых я строю</h2>
-            <p className="lead">Выбираю инструменты под задачу, а не под моду. Для лендинга достаточно чистого HTML и CSS, для сервиса нужен полноценный стек. А там, где ИИ ускоряет работу, использую и его, но проверяю результат сам.</p>
-          </div>
-          <div className="stack-groups stack-groups--4">
-            <div><h3>Интерфейс</h3><Chips items={['HTML5', 'CSS3', 'JavaScript', 'TypeScript', 'React', 'Next.js']} /></div>
-            <div><h3>Серверная часть</h3><Chips items={['Node.js', 'REST API', 'PostgreSQL', 'Авторизация', 'Платёжные шлюзы']} /></div>
-            <div><h3>Качество и рост</h3><Chips items={['Core Web Vitals', 'Schema.org', 'Яндекс Метрика', 'Search Console', 'Доступность']} /></div>
-            <div><h3>ИИ в работе</h3><Chips items={['ИИ-ассистенты для кода', 'Claude и другие модели', 'Автоматизация рутины', 'Проверка человеком']} /></div>
-          </div>
+          <TypedQuote text="Сайт, который грузится дольше чайника, клиентов не согреет." />
         </div>
       </section>
 

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Seo } from '../components/Seo'
-import { Chips, Cta, PageHero } from '../components/ui'
+import { Cta, PageHero } from '../components/ui'
 import { breadcrumb, graph, person, personId } from '../data/schema'
 import { pageUrl } from '../data/site'
 
@@ -20,13 +20,6 @@ const outcomes: { title: string; text: string; points: string[] }[] = [
   { title: 'С вами спокойно работать',
     text: 'Вы знаете, что происходит, сколько это стоит и когда будет готово. Объясняю простыми словами и предупреждаю о рисках заранее, без сюрпризов в финале.',
     points: ['Один контакт на весь проект', 'Еженедельный показ рабочей версии', 'Передача доступов и помощь после запуска'] },
-]
-
-const stack: [string, string[]][] = [
-  ['Интерфейс', ['HTML и CSS', 'JavaScript и TypeScript', 'React и Next.js', 'Figma']],
-  ['Сервер и данные', ['Node.js', 'REST API', 'PostgreSQL', 'Платёжные шлюзы']],
-  ['Качество и рост', ['Core Web Vitals', 'Schema.org', 'Яндекс Метрика и Search Console', 'Git и CI/CD']],
-  ['ИИ в работе', ['ИИ-ассистенты для кода', 'Claude и другие модели', 'Автоматизация рутины', 'Проверка человеком']],
 ]
 
 const roles: [string, string][] = [
@@ -49,7 +42,7 @@ export default function About() {
     <>
       <Seo path="/about" title="Резюме веб-разработчика: стек, опыт и подход | denvorko"
         ogTitle="Резюме веб-разработчика denvorko"
-        description="Обо мне: веб-разработчик denvorko. Технологический стек, направления работы, принципы и то, как строится общение с заказчиком. Страницу можно распечатать как резюме."
+        description="Обо мне: веб-разработчик denvorko. Направления работы, принципы и то, как строится общение с заказчиком. Страницу можно распечатать как резюме."
         jsonLd={graph(breadcrumb('/about', 'Обо мне'), profile, person)} />
       <PageHero name="Обо мне" title="Веб-разработчик, с которым легко договориться"
         lead="Я denvorko. Делаю сайты и веб-приложения и считаю, что хороший результат строится на двух вещах: аккуратном коде и понятном общении.">
@@ -86,18 +79,6 @@ export default function About() {
                 </div>
               </article>
             ))}
-          </div>
-          <div className="faq faq--tech">
-            <details>
-              <summary>Технологии, на которых это сделано</summary>
-              <div className="answer">
-                <p>Инструменты подбираю под задачу, а не наоборот. Для лендинга хватает лёгкой вёрстки, для сервиса беру полноценный стек. Вам важно, чтобы работало, а остальное моя забота.</p>
-                <p>ИИ использую как ускоритель: для прототипов, черновиков кода и текстов, поиска ошибок и автоматизации рутины. Итоговые решения принимаю и проверяю сам, ответственность за результат на мне.</p>
-                <div className="stack-groups">
-                  {stack.map(([t, items]) => <div key={t}><h3>{t}</h3><Chips items={items} /></div>)}
-                </div>
-              </div>
-            </details>
           </div>
         </div>
       </section>

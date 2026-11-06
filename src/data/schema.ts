@@ -8,7 +8,7 @@ export const businessId = `${url}/#business`
 export const person = {
   '@type': 'Person', '@id': personId, name: 'denvorko', alternateName: 'Denvorko', jobTitle: 'Веб-разработчик',
   url: `${url}/`, sameAs: [site.github, site.telegram],
-  knowsAbout: ['Веб-разработка', 'Разработка сайтов под ключ', 'Адаптивная вёрстка', 'JavaScript', 'TypeScript', 'React', 'Next.js', 'Node.js', 'SEO-оптимизация сайтов', 'Core Web Vitals', 'UX и интерфейсы', 'Искусственный интеллект в разработке'],
+  knowsAbout: ['Веб-разработка', 'Разработка сайтов под ключ', 'Адаптивная вёрстка', 'Интернет-магазины', 'Веб-приложения', 'SEO-оптимизация сайтов', 'Core Web Vitals', 'UX и интерфейсы', 'Искусственный интеллект в разработке'],
 }
 
 export const business = {

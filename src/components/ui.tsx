@@ -65,14 +65,6 @@ export function Cta({ title, text, label = 'Обсудить проект' }: { 
   )
 }
 
-export function Chips({ items, label }: { items: string[]; label?: string }) {
-  return (
-    <ul className="chips" aria-label={label}>
-      {items.map((i) => <li key={i}>{i}</li>)}
-    </ul>
-  )
-}
-
 /** GSAP ScrollTrigger (scrub): жёлтая линия над шагом заполняется при прокрутке вниз и так же возвращается при прокрутке вверх. */
 export function Steps({ items }: { items: { title: string; text: string }[] }) {
   const ref = useRef<HTMLOListElement>(null)

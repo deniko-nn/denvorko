@@ -214,18 +214,6 @@ a.row:hover h3 { color: var(--link); }
   .case:last-of-type { padding-bottom: 0; }
 }
 
-/* ---------- Теги и чипы ---------- */
-.chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.chips li {
-  padding: 6px 12px;
-  border: 1px solid var(--line);
-  border-radius: var(--r-s);
-  font-size: 0.9rem;
-  line-height: 1.3;
-  color: var(--text);
-  background: var(--surface);
-}
-
 /* ---------- Процесс (настоящая последовательность) ---------- */
 .steps { display: grid; gap: var(--gap); counter-reset: step; }
 .steps li { counter-increment: step; display: grid; gap: 8px; padding-top: 20px; border-top: 2px solid var(--line); position: relative; }
@@ -296,10 +284,6 @@ a.row:hover h3 { color: var(--link); }
 .checks span { color: var(--muted); }
 
 /* ---------- Стек ---------- */
-.stack-groups { display: grid; gap: var(--gap) clamp(32px, 5vw, 72px); }
-.stack-groups h3 { font-size: 1.05rem; margin-bottom: 14px; }
-@media (min-width: 800px) { .stack-groups { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1000px) { .stack-groups { grid-template-columns: repeat(3, 1fr); } }
 
 /* ---------- FAQ ---------- */
 .faq { border-top: 1px solid var(--line); max-width: 860px; }
@@ -380,12 +364,6 @@ a.row:hover h3 { color: var(--link); }
 .outcome__body { display: grid; gap: 18px; align-content: start; }
 .outcome__body > p { color: var(--muted); }
 @media (min-width: 900px) { .outcome { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); align-items: start; } }
-.faq--tech { max-width: none; border-top: 0; }
-.faq--tech .answer { max-width: none; display: grid; gap: 24px; }
-.faq--tech .stack-groups { gap: 24px 32px; }
-@media (min-width: 800px) { .faq--tech .stack-groups { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 800px) { .stack-groups--4 { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1100px) { .stack-groups--4 { grid-template-columns: repeat(4, 1fr); } }
 
 /* ---------- Контакты и форма ---------- */
 .contact-grid { display: grid; gap: clamp(32px, 5vw, 64px); }
@@ -694,19 +672,16 @@ html.motion-off .grid-lines { opacity: 0.6; }
 .statement .scroll-reveal { margin: 0; max-width: 980px; }
 .statement .scroll-reveal-text { font-family: var(--font-display); font-weight: 300; letter-spacing: 0.03em; font-size: clamp(1.5rem, 0.9rem + 2.7vw, 2.9rem); line-height: 1.35; color: var(--text); }
 
-/* Кольцо из бегущего текста сбоку секции (полупрозрачное, вращается CSS) */
+/* Фраза-«печатная машинка» сбоку секции */
 .why-layout { display: grid; gap: 40px; align-items: center; }
 .why-main { min-width: 0; }
 @media (min-width: 1100px) {
-  .why-layout { grid-template-columns: minmax(0, 1fr) 340px; gap: 64px; }
+  .why-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 72px; }
   .why-main .defs--3 { grid-template-columns: 1fr; gap: 22px; }
 }
-.side-ring { position: relative; width: min(100%, 340px); aspect-ratio: 1; justify-self: center; overflow: hidden; }
-.side-ring__star { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); color: var(--accent); font-size: 2.4rem; line-height: 1; opacity: 0.9; }
-.textring { position: absolute; inset: 0; opacity: 0.5; }
-.textring__ring { position: absolute; inset: 0; font-family: var(--font-display); font-weight: 600; line-height: 1; animation: ring-spin linear infinite; will-change: transform; }
-.textring__ch { position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
-.textring__g { position: absolute; left: 0; transform: translate(-50%, -50%); white-space: pre; }
-@keyframes ring-spin { to { transform: rotate(360deg); } }
-@media (hover: hover) and (pointer: fine) { .side-ring:hover .textring__ring { animation-play-state: paused; } }
-@media (prefers-reduced-motion: reduce) { .textring__ring { animation: none; } }
+.typed-quote { margin: 0; padding-left: clamp(16px, 2.5vw, 28px); border-left: 3px solid var(--accent); font-family: var(--font-display); font-weight: 300; font-size: clamp(1.4rem, 0.9rem + 1.9vw, 2.15rem); line-height: 1.35; letter-spacing: 0.02em; color: var(--text); }
+.typed-quote p { margin: 0; max-width: none; }
+.typed-quote__box { position: relative; }
+.typed-quote__ghost { visibility: hidden; }
+.typed-quote .typed-quote__text { position: absolute; inset: 0; display: block; }
+.typed-quote .text-type__cursor { color: var(--accent); }

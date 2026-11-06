@@ -1,7 +1,7 @@
 import { HoverLift } from '../components/HoverLift'
 import { mockups } from '../components/Mockups'
 import { Seo } from '../components/Seo'
-import { Chips, Cta, PageHero } from '../components/ui'
+import { Cta, PageHero } from '../components/ui'
 import { cases } from '../data/cases'
 import { breadcrumb, graph } from '../data/schema'
 import { pageUrl, site } from '../data/site'
@@ -37,7 +37,6 @@ export default function Work() {
                     <div><dt>Решение</dt><dd>{c.solution}</dd></div>
                     <div><dt>Что получилось</dt><dd>{c.result}</dd></div>
                   </dl>
-                  <Chips items={c.stack} label="Технологии" />
                 </div>
               </article>
             )
