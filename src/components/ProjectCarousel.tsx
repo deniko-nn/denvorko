@@ -7,7 +7,7 @@ const items = cases.map((c) => ({ src: coverOf(c.id), alt: `Обложка пр�
 
 /**
  * React Bits CircularCarousel (panorama): карточки проектов по кругу. Клик по карточке ведёт на страницу проекта,
- * перетаскивание листает. Список ссылок скрыт визуально, но нужен клавиатуре, скринридерам и поисковикам.
+ * перетаскивание и прокрутка листают ровно на одну карточку и останавливаются; автоматически карусель переходит к следующему проекту раз в 5 секунд. Список ссылок скрыт визуально, но нужен клавиатуре, скринридерам и поисковикам.
  */
 export function ProjectCarousel() {
   const navigate = useNavigate()
@@ -27,7 +27,9 @@ export function ProjectCarousel() {
         intro="rise"
         cardWidth={cardWidth}
         aspectRatio={0.75}
-        speed={14}
+        autoplay="step"
+        interval={5}
+        oneAtATime
         captions
         tilt={0}
         perspective={1800}

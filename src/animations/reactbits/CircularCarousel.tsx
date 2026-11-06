@@ -1,4 +1,6 @@
 'use client';
+/* React Bits CircularCarousel. Изменено для сайта: проп oneAtATime. За один жест (перетаскивание, колесо, трекпад)
+   карусель сдвигается ровно на соседнюю карточку и останавливается, без инерции и перелистывания дальше. */
 
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
@@ -34,6 +36,7 @@ export interface CircularCarouselProps {
   snap?: boolean;
   pauseOnHover?: boolean;
   focusOnClick?: boolean;
+  oneAtATime?: boolean;
   parallax?: number;
   stretch?: number;
   depthFade?: number;
@@ -102,6 +105,8 @@ interface CarouselState {
   stepAt: number;
   suppressClick: boolean;
   wheelTimer: ReturnType<typeof setTimeout> | undefined;
+  wheelStart: number | null;
+  wheelLocked: boolean;
   fit: number;
   shift: number;
   drop: number;
@@ -126,6 +131,7 @@ interface Settings {
   momentum: number;
   snap: boolean;
   pauseOnHover: boolean;
+  oneAtATime: boolean;
   parallax: number;
   stretch: number;
   depthFade: number;
@@ -335,6 +341,7 @@ const CircularCarousel = ({
   snap = true,
   pauseOnHover = true,
   focusOnClick = true,
+  oneAtATime = false,
   parallax = 0.3,
   stretch = 0.5,
   depthFade = 0.55,
@@ -423,6 +430,8 @@ const CircularCarousel = ({
     stepAt: 0,
     suppressClick: false,
     wheelTimer: undefined,
+    wheelStart: null,
+    wheelLocked: false,
     fit: 1,
     shift: 0,
     drop: 0,
@@ -447,6 +456,7 @@ const CircularCarousel = ({
     momentum: clamp(momentum, 0, 1),
     snap,
     pauseOnHover,
+    oneAtATime,
     parallax: reduced ? 0 : clamp(parallax, 0, 1),
     stretch: reduced ? 0 : clamp(stretch, 0, 1),
     depthFade: clamp(depthFade, 0, 1),
@@ -795,6 +805,36 @@ const CircularCarousel = ({
       if (!delta) return;
       event.preventDefault();
       const perPixel = 180 / (Math.PI * s.radius * state.fit);
+      if (s.oneAtATime) {
+        // один жест колеса или трекпада сдвигает ровно на соседнюю карточку; инерция трекпада игнорируется
+        const commit = () => {
+          const start = state.wheelStart ?? state.angle;
+          const moved = state.angle - start;
+          const dir = Math.abs(moved) > s.step * 0.12 ? Math.sign(moved) : 0;
+          state.target = (Math.round(start / s.step) + dir) * s.step;
+          state.velocity = 0;
+        };
+        clearTimeout(state.wheelTimer);
+        if (!state.wheelLocked) {
+          if (state.wheelStart === null) state.wheelStart = state.angle;
+          const start = state.wheelStart;
+          state.target = null;
+          state.angle = clamp(state.angle - delta * perPixel * (s.layout.inward ? -1 : 1), start - s.step, start + s.step);
+          if (Math.abs(state.angle - start) > s.step * 0.45) {
+            state.wheelLocked = true;
+            commit();
+          }
+        }
+        state.holdUntil = performance.now() + 6000;
+        state.wheelTimer = setTimeout(() => {
+          if (!state.wheelLocked) commit();
+          state.wheelLocked = false;
+          state.wheelStart = null;
+          wake();
+        }, state.wheelLocked ? 260 : 140);
+        wake();
+        return;
+      }
       state.target = null;
       state.angle -= delta * perPixel * (s.layout.inward ? -1 : 1);
       state.velocity = -delta * perPixel * (s.layout.inward ? -1 : 1) * 30;
@@ -907,6 +947,7 @@ const CircularCarousel = ({
     }
     const perPixel = 180 / (Math.PI * s.radius * state.fit);
     state.angle = press.angle + (delta - press.origin) * perPixel * (s.layout.inward ? -1 : 1);
+    if (s.oneAtATime) state.angle = clamp(state.angle, press.angle - s.step, press.angle + s.step);
     const now = performance.now();
     press.samples.push({ time: now, angle: state.angle });
     while (press.samples.length > 2 && now - press.samples[0].time > 110) press.samples.shift();
@@ -929,6 +970,16 @@ const CircularCarousel = ({
     const velocity = span > 0.008 ? clamp((last.angle - first.angle) / span, -1400, 1400) : 0;
     state.velocity = velocity;
     if (Math.abs(velocity) > 60) state.dir = Math.sign(velocity);
+    if (s.oneAtATime) {
+      // отпустили: едем к соседней карточке в сторону жеста (или возвращаемся, если сдвиг был мал) и останавливаемся
+      const moved = state.angle - press.angle;
+      const dir = Math.abs(moved) > s.step * 0.12 || Math.abs(velocity) > 120 ? Math.sign(Math.abs(moved) > s.step * 0.04 ? moved : velocity) : 0;
+      state.target = (Math.round(press.angle / s.step) + dir) * s.step;
+      state.velocity = 0;
+      state.holdUntil = performance.now() + 6000;
+      wakeRef.current();
+      return;
+    }
     const coasting = s.autoplay === 'drift' && !(s.pauseOnHover && state.hover && event.pointerType === 'mouse');
     if (s.snap && !coasting) {
       const tau = 0.18 + s.momentum * 1.5;

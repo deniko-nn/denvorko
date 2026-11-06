@@ -1,15 +1,25 @@
+import type { CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import ReflectiveCard from '../animations/reactbits/ReflectiveCard'
 import { coverOf, type CaseItem } from '../data/cases'
 
 /**
- * React Bits ReflectiveCard: металлическая карточка с бликом и отражением, следит за курсором.
- * Вся карточка является ссылкой на страницу проекта.
+ * React Bits ReflectiveCard в стиле сайта: тёмное стекло цвета фона, острые углы, тонкая лавандовая рамка,
+ * мягкий блик, следящий за курсором. Вся карточка является ссылкой на страницу проекта.
  */
+const glass = {
+  '--rc-base': '#090c1c',
+  '--rc-shadow': 'none',
+  '--rc-ink': '#eceffa',
+  '--rc-muted': '#9aa0b8',
+  '--rc-rim': 'rgba(190, 200, 255, 0.22)',
+  '--rc-rim-highlight': 'rgba(190, 200, 255, 0.06)',
+} as CSSProperties
+
 export function ProjectCard({ item }: { item: CaseItem }) {
   return (
     <Link className="pcard" to={`/work/${item.id}`} aria-label={`Открыть проект: ${item.name}`}>
-      <ReflectiveCard width="100%" height={500} radius={6} tint="#ffffff" metalness={1} roughness={0.3} blurStrength={6} shine={1} glare={0.5}>
+      <ReflectiveCard width="100%" height={500} radius={0} theme="dark" tint="#aab6ff" metalness={0.25} roughness={0.5} blurStrength={8} shine={0.3} glare={0.55} bevel={0} warp={0.25} tiltStrength={5} style={glass}>
         <div className="pcard__content">
           <span className="pcard__kind">{item.kind}</span>
           <img className="pcard__cover" src={coverOf(item.id)} alt="" loading="lazy" draggable={false} />
