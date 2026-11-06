@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import Magnet from '../animations/reactbits/Magnet'
 import SplitText from '../animations/reactbits/SplitText'
@@ -85,7 +85,7 @@ export function HeroSlider() {
               const active = n === i
               const Tag = n === 0 ? 'h1' : 'h2'
               return (
-                <motion.div key={n} className={`slide${active ? ' glitch-in' : ''}`} aria-hidden={!active} inert={!active}
+                <m.div key={n} className={`slide${active ? ' glitch-in' : ''}`} aria-hidden={!active} inert={!active}
                   initial={false} animate={{ opacity: active ? 1 : 0, x: active ? 0 : -24 * dir }} transition={{ duration: 0.35 }}
                   style={{ visibility: active ? 'visible' : 'hidden' }}>
                   {active
@@ -98,7 +98,7 @@ export function HeroSlider() {
                       : <Link className="btn btn-primary" to="/contact">Обсудить проект</Link>}
                     <Link className="btn btn-ghost" to={sl.more.to}>{sl.more.label}</Link>
                   </div>
-                </motion.div>
+                </m.div>
               )
             })}
           </div>
@@ -109,9 +109,9 @@ export function HeroSlider() {
       <div className="hero-hud">
         <span className="hud-logo">denvorko</span>
         <div className="hero-hud__links">
-          <a href={site.telegram} rel="noopener">Telegram</a>
+          <a href={site.telegram} rel="noopener noreferrer">Telegram</a>
           <a href={`mailto:${site.email}`}>Почта</a>
-          <a href={site.github} rel="noopener">GitHub</a>
+          <a href={site.github} rel="noopener noreferrer">GitHub</a>
         </div>
       </div>
     </section>

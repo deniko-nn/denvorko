@@ -10,7 +10,7 @@ type Props = {
   jsonLd?: object
 }
 
-/** Мета-теги, Open Graph и JSON-LD. Попадают в статический HTML при сборке. */
+/** Мета-теги, Open Graph и JSON-LD. Попадают в статический HTML при сборке. «<» в JSON-LD экранируется, чтобы данные не могли закрыть тег script. */
 export function Seo({ title, description, path, ogTitle, noindex, jsonLd }: Props) {
   const url = pageUrl(path)
   const image = `${site.url}/assets/img/og.png`
@@ -34,7 +34,7 @@ export function Seo({ title, description, path, ogTitle, noindex, jsonLd }: Prop
       <meta property="og:image:height" content="630" />
       <meta property="og:image:alt" content="denvorko — веб-разработчик: сайты под ключ" />
       <meta name="twitter:card" content="summary_large_image" />
-      {jsonLd && <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>}
+      {jsonLd && <script type="application/ld+json">{JSON.stringify(jsonLd).replace(/</g, '\\u003c')}</script>}
     </Head>
   )
 }

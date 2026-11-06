@@ -56,7 +56,7 @@ export function Cta({ title, text, label = 'Обсудить проект' }: { 
               <p>{text}</p>
               <div className="btn-row">
                 <Link className="btn btn-primary" to="/contact">{label}</Link>
-                <a className="btn btn-ghost" href={site.telegram} rel="noopener">Написать в Telegram</a>
+                <a className="btn btn-ghost" href={site.telegram} rel="noopener noreferrer">Написать в Telegram</a>
               </div>
             </div>
           </div>

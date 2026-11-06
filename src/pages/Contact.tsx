@@ -28,9 +28,13 @@ export default function Contact() {
     setChecked(true)
     if (!f.checkValidity()) { f.querySelector<HTMLElement>(':invalid')?.focus(); return }
     const d = new FormData(f)
-    const body = [`Имя: ${d.get('name')}`, `Как связаться: ${d.get('contact')}`, `Тип проекта: ${d.get('type')}`, `Сроки: ${d.get('deadline')}`, '', String(d.get('message'))].join('\n')
+    // убираем управляющие символы и переводы строк из полей, которые попадают в тему и заголовки письма
+    const clean = (v: FormDataEntryValue | null, max: number) => String(v ?? '').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, '').trim().slice(0, max)
+    const oneLine = (v: FormDataEntryValue | null, max: number) => clean(v, max).replace(/[\r\n]+/g, ' ')
+    const type = oneLine(d.get('type'), 80)
+    const body = [`Имя: ${oneLine(d.get('name'), 80)}`, `Как связаться: ${oneLine(d.get('contact'), 120)}`, `Тип проекта: ${type}`, `Сроки: ${oneLine(d.get('deadline'), 80)}`, '', clean(d.get('message'), 2000)].join('\n')
     setStatus(`Открываю почтовую программу с готовым письмом. Если ничего не произошло, напишите на ${site.email} или в Telegram.`)
-    window.location.href = `mailto:${site.email}?subject=${encodeURIComponent('Заявка с сайта denvorko: ' + d.get('type'))}&body=${encodeURIComponent(body)}`
+    window.location.href = `mailto:${site.email}?subject=${encodeURIComponent('Заявка с сайта denvorko: ' + type)}&body=${encodeURIComponent(body)}`
   }
 
   return (
@@ -52,12 +56,12 @@ export default function Contact() {
               <form className={`form${checked ? ' was-validated' : ''}`} onSubmit={onSubmit} noValidate>
                 <div className="form-row">
                   <div className="field">
-                    <input id="name" name="name" type="text" autoComplete="name" required placeholder=" " />
+                    <input id="name" name="name" type="text" autoComplete="name" required maxLength={80} placeholder=" " />
                     <label htmlFor="name">Как к вам обращаться</label>
                     <span className="field__error">Напишите, как к вам обращаться</span>
                   </div>
                   <div className="field">
-                    <input id="contact" name="contact" type="text" autoComplete="email" required placeholder=" " />
+                    <input id="contact" name="contact" type="text" autoComplete="email" required maxLength={120} placeholder=" " />
                     <label htmlFor="contact">Почта или Telegram</label>
                     <span className="field__error">Укажите, как с вами связаться</span>
                   </div>
@@ -82,7 +86,7 @@ export default function Contact() {
                 </fieldset>
 
                 <div className="field">
-                  <textarea id="message" name="message" required rows={4} placeholder=" " />
+                  <textarea id="message" name="message" required rows={4} maxLength={2000} placeholder=" " />
                   <label htmlFor="message">О проекте</label>
                   <span className="field__error">Опишите задачу в паре предложений</span>
                   <span className="hint">Чем занимается бизнес, какая цель у сайта, есть ли примеры, которые нравятся.</span>
@@ -102,8 +106,8 @@ export default function Contact() {
               <h2 style={{ fontSize: 'clamp(1.3rem, 1.1rem + 0.8vw, 1.7rem)', marginBottom: 20 }}>Или напишите напрямую</h2>
               <div className="channels">
                 <a href={`mailto:${site.email}`}><span className="lab">Почта</span><span className="val">{site.email}</span></a>
-                <a href={site.telegram} rel="noopener"><span className="lab">Telegram</span><span className="val">{site.telegramHandle}</span></a>
-                <a href={site.github} rel="noopener"><span className="lab">GitHub</span><span className="val">github.com/deniko-nn</span></a>
+                <a href={site.telegram} rel="noopener noreferrer"><span className="lab">Telegram</span><span className="val">{site.telegramHandle}</span></a>
+                <a href={site.github} rel="noopener noreferrer"><span className="lab">GitHub</span><span className="val">github.com/deniko-nn</span></a>
                 <div><span className="lab">Формат работы</span><span className="val">Удалённо, на русском языке</span></div>
               </div>
             </div>

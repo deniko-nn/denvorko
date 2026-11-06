@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, m } from 'framer-motion'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { setMotionOff, useMotionOff } from '../animations/motion'
 import { nav, site } from '../data/site'
@@ -54,23 +54,23 @@ export function TopBar() {
 
       <AnimatePresence>
         {open && (
-          <motion.div id="menu" className="menu" role="dialog" aria-modal="true" aria-label="Меню сайта"
+          <m.div id="menu" className="menu" role="dialog" aria-modal="true" aria-label="Меню сайта"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35, delay: 0.12 }}>
             <nav className="menu__nav" aria-label="Основное меню">
               <ul>
                 {items.map((n, i) => (
-                  <motion.li key={n.to} initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 + i * 0.07, duration: 0.45 }}>
+                  <m.li key={n.to} initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 + i * 0.07, duration: 0.45 }}>
                     <NavLink to={n.to} end={n.to === '/'} onClick={() => setOpen(false)}><span className="bar" />{n.label}</NavLink>
-                  </motion.li>
+                  </m.li>
                 ))}
               </ul>
             </nav>
             <div className="menu__contacts">
               <a href={`mailto:${site.email}`}>{site.email}</a>
-              <a href={site.telegram} rel="noopener">Telegram {site.telegramHandle}</a>
-              <a href={site.github} rel="noopener">GitHub</a>
+              <a href={site.telegram} rel="noopener noreferrer">Telegram {site.telegramHandle}</a>
+              <a href={site.github} rel="noopener noreferrer">GitHub</a>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>

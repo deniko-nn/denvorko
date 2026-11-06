@@ -1,19 +1,12 @@
 'use client';
+/* React Bits ReflectiveCard. Изменено для сайта: убрано стандартное содержимое (имя, роль, значки) и пакеты иконок;
+   содержимое карточки всегда передаётся через children. */
 
 import { memo, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
-import { HugeiconsIcon } from '@hugeicons/react';
-import { CheckmarkBadge01Icon, FingerPrintIcon } from '@hugeicons/core-free-icons';
 
 import './ReflectiveCard.css';
 
 export interface ReflectiveCardProps {
-  name?: string;
-  role?: string;
-  badge?: string;
-  status?: string;
-  statusColor?: string;
-  idLabel?: string;
-  idValue?: string;
   children?: ReactNode;
   theme?: 'dark' | 'light';
   videoSrc?: string;
@@ -660,13 +653,6 @@ const createRenderer = (canvas: HTMLCanvasElement) => {
 };
 
 const ReflectiveCard = ({
-  name = 'Alexander Doe',
-  role = 'Senior Developer',
-  badge = 'Verified',
-  status = 'Active',
-  statusColor = '#22c55e',
-  idLabel = 'ID number',
-  idValue = '8901 2345 6789',
   children,
   theme = 'dark',
   videoSrc,
@@ -1099,7 +1085,6 @@ const ReflectiveCard = ({
     '--rc-radius': `${corner}px`,
     '--rc-pad': `${Math.round(clamp(corner * 0.8, 16, 22))}px`,
     '--rc-tile-radius': `${Math.round(clamp(corner * 0.5, 8, 14))}px`,
-    '--rc-status': statusColor
   } as CSSProperties;
 
   return (
@@ -1107,41 +1092,7 @@ const ReflectiveCard = ({
       <div ref={bodyRef} className="reflective-card__body">
         <canvas ref={canvasRef} className="reflective-card__canvas" aria-hidden="true" />
         <div className="reflective-card__content">
-          {children ?? (
-            <>
-              {(badge || status) && (
-                <div className="reflective-card__header">
-                  {badge && (
-                    <span className="reflective-card__badge">
-                      <HugeiconsIcon icon={CheckmarkBadge01Icon} size={16} strokeWidth={1.8} />
-                      {badge}
-                    </span>
-                  )}
-                  {status && (
-                    <span className="reflective-card__status">
-                      <span className="reflective-card__dot" />
-                      {status}
-                    </span>
-                  )}
-                </div>
-              )}
-              <div className="reflective-card__identity">
-                {name && <h3 className="reflective-card__name">{name}</h3>}
-                {role && <p className="reflective-card__role">{role}</p>}
-              </div>
-              {(idLabel || idValue) && (
-                <div className="reflective-card__footer">
-                  <div className="reflective-card__id">
-                    {idLabel && <span className="reflective-card__label">{idLabel}</span>}
-                    {idValue && <span className="reflective-card__value">{idValue}</span>}
-                  </div>
-                  <span className="reflective-card__tile">
-                    <HugeiconsIcon icon={FingerPrintIcon} size={22} strokeWidth={1.6} />
-                  </span>
-                </div>
-              )}
-            </>
-          )}
+          {children}
         </div>
         <span className="reflective-card__rim" />
       </div>

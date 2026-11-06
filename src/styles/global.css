@@ -8,7 +8,6 @@
 :root {
   --font-display: "Jura", "Nunito Sans", system-ui, sans-serif;
   --font: "Nunito Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --bg: #05070f;
   --bg-2: #090c1a;
@@ -206,7 +205,7 @@ a.row:hover h3 { color: var(--link); }
   height: 2px;
   background: var(--accent);
 }
-.steps .num { font-family: var(--mono); font-size: 0.85rem; color: var(--link); }
+.steps .num { font-family: var(--font-display); font-size: 0.85rem; color: var(--link); }
 .steps p { color: var(--muted); font-size: 0.98rem; line-height: 1.55; }
 @media (min-width: 720px) { .steps { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1000px) { .steps { grid-template-columns: repeat(4, 1fr); } }
@@ -414,7 +413,7 @@ a.row:hover h3 { color: var(--link); }
 
 /* ---------- 404 ---------- */
 .notfound { padding-top: var(--nav-h); min-height: 80vh; display: grid; align-items: center; }
-.notfound .big { font-family: var(--mono); color: var(--accent); font-size: clamp(3rem, 12vw, 7rem); font-weight: 500; line-height: 1; }
+.notfound .big { font-family: var(--font-display); color: var(--accent); font-size: clamp(3rem, 12vw, 7rem); font-weight: 500; line-height: 1; }
 
 /* ---------- Анимации ---------- */
 /* Фон Topography: фиксированный слой под всем содержимым */
@@ -423,17 +422,13 @@ a.row:hover h3 { color: var(--link); }
 .topo-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, color-mix(in srgb, var(--bg) 40%, transparent), color-mix(in srgb, var(--bg) 22%, transparent) 40%, color-mix(in srgb, var(--bg) 50%, transparent)); }
 
 /* Скрыто до старта GSAP; если скрипт не загрузился, через 3 секунды всё показывается само */
-.js .gsap-hide { opacity: 0; animation: show-fallback 0.01s 3s forwards; }
 .js .split-parent:not(.split-ready) { visibility: hidden; animation: show-fallback-v 0.01s 3s forwards; }
-@keyframes show-fallback { to { opacity: 1; } }
 @keyframes show-fallback-v { to { visibility: visible; } }
 .hero h1.split-parent { padding-bottom: 0.06em; }
 .fade-enter { opacity: 0; transform: translateY(-4px); }
 .fade-enter-active { opacity: 1; transform: none; transition: opacity 0.3s, transform 0.3s; }
 .fade-exit { opacity: 1; }
 .fade-exit-active { opacity: 0; transition: opacity 0.2s; }
-.code-wrap { perspective: 1000px; }
-.code { will-change: transform; }
 
 /* ---------- Прочее ---------- */
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -441,7 +436,6 @@ a.row:hover h3 { color: var(--link); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  .js .gsap-hide { opacity: 1; }
   .js .split-parent:not(.split-ready) { visibility: visible; }
 }
 
@@ -452,7 +446,7 @@ a.row:hover h3 { color: var(--link); }
     --text: #000; --muted: #333; --accent: #0b6657; --link: #0b6657; --grid: transparent;
   }
   body { font-size: 11pt; background: #fff; color: #000; }
-  .topo-bg, .site-header, .site-footer, .cta, .btn-row, .skip, .no-print, .page-hero::before { display: none !important; }
+  .topo-bg, .site-footer, .cta, .btn-row, .skip, .no-print, .page-hero::before { display: none !important; }
   .section, .page-hero { padding-block: 16pt; }
   .section--alt { background: #fff; border: 0; }
   a { color: #000; text-decoration: none; }

@@ -33,7 +33,7 @@ export default function Work() {
             <h2 id="code-title">Код можно посмотреть</h2>
             <p className="lead">Я публикую рабочий код и учебные проекты на GitHub. Так видно, как я пишу и структурирую решения, без пересказов.</p>
           </div>
-          <div className="btn-row"><a className="btn btn-ghost" href={site.github} rel="noopener">Открыть GitHub</a></div>
+          <div className="btn-row"><a className="btn btn-ghost" href={site.github} rel="noopener noreferrer">Открыть GitHub</a></div>
         </div>
       </section>
 

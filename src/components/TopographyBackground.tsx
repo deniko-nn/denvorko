@@ -13,6 +13,9 @@ export function TopographyBackground() {
   const [dpr, setDpr] = useState(1)
 
   useEffect(() => {
+    // экономия: не грузим тяжёлый WebGL-фон при включённой экономии трафика и на очень слабых устройствах
+    const nav = navigator as Navigator & { deviceMemory?: number; connection?: { saveData?: boolean } }
+    if (nav.connection?.saveData || (nav.deviceMemory !== undefined && nav.deviceMemory <= 2) || (navigator.hardwareConcurrency || 8) <= 2) return
     let alive = true
     import('../animations/reactbits/Topography').then((m) => alive && setTopography(() => m.default))
     return () => { alive = false }

@@ -23,8 +23,8 @@ export function Footer() {
             <h2>Связаться</h2>
             <ul>
               <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
-              <li><a href={site.telegram} rel="noopener">Telegram {site.telegramHandle}</a></li>
-              <li><a href={site.github} rel="noopener">GitHub</a></li>
+              <li><a href={site.telegram} rel="noopener noreferrer">Telegram {site.telegramHandle}</a></li>
+              <li><a href={site.github} rel="noopener noreferrer">GitHub</a></li>
             </ul>
           </div>
         </div>

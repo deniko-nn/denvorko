@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { AnimatePresence, MotionConfig, motion } from 'framer-motion'
+import { AnimatePresence, LazyMotion, MotionConfig, m } from 'framer-motion'
 import { useLocation, useOutlet } from 'react-router-dom'
 import { Footer } from './Footer'
 import { GlitchWipe, playGlitchWipe } from './GlitchWipe'
@@ -7,6 +7,8 @@ import { GridLines } from './GridLines'
 import { IntroParticles } from './IntroParticles'
 import { TopBar } from './TopBar'
 import { TopographyBackground } from './TopographyBackground'
+
+const loadMotionFeatures = () => import('../animations/motionFeatures').then((mod) => mod.default)
 
 const scrollToLocation = (hash: string) => {
   const el = hash ? document.getElementById(decodeURIComponent(hash.slice(1))) : null
@@ -37,6 +39,7 @@ export function Layout() {
   }, [])
 
   return (
+    <LazyMotion features={loadMotionFeatures}>
     <MotionConfig reducedMotion="user">
       <IntroParticles />
       <TopographyBackground />
@@ -46,7 +49,7 @@ export function Layout() {
       <TopBar />
       <main id="main">
         <AnimatePresence mode="wait" initial={false}>
-          <motion.div
+          <m.div
             key={pathname}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -55,10 +58,11 @@ export function Layout() {
             onAnimationStart={(def) => { if (typeof def === 'object' && (def as { opacity?: number }).opacity === 1) scrollToLocation(hashRef.current) }}
           >
             {outlet}
-          </motion.div>
+          </m.div>
         </AnimatePresence>
       </main>
       <Footer />
     </MotionConfig>
+    </LazyMotion>
   )
 }

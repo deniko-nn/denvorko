@@ -1,5 +1,6 @@
 // После сборки: sitemap.xml, robots.txt, 404.html и .nojekyll для GitHub Pages.
-import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { createHash } from 'node:crypto'
+import { copyFileSync, existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 
 const { url } = JSON.parse(readFileSync(new URL('../site.config.json', import.meta.url), 'utf8'))
 const site = url.replace(/\/$/, '')
@@ -16,4 +17,38 @@ writeFileSync('dist/sitemap.xml', xml)
 writeFileSync('dist/robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${site}/sitemap.xml\n`)
 writeFileSync('dist/.nojekyll', '')
 if (!existsSync('dist/404.html') && existsSync('dist/404/index.html')) copyFileSync('dist/404/index.html', 'dist/404.html')
-console.log('postbuild: sitemap, robots, 404 готовы')
+
+
+// Политика безопасности (CSP) для каждой страницы. GitHub Pages не позволяет задавать HTTP-заголовки,
+// поэтому используем мета-тег. Встроенные скрипты (их три на странице) разрешаются по хэшу содержимого,
+// всё остальное только с этого же сайта. Данные JSON-LD не исполняются и политикой не затрагиваются.
+const walk = (dir) => readdirSync(dir).flatMap((n) => {
+  const p = `${dir}/${n}`
+  return statSync(p).isDirectory() ? walk(p) : [p]
+})
+let pagesWithCsp = 0
+for (const file of walk('dist').filter((f) => f.endsWith('.html'))) {
+  let html = readFileSync(file, 'utf8')
+  const hashes = [...html.matchAll(/<script(?![^>]*\bsrc=)(?![^>]*application\/ld\+json)[^>]*>([\s\S]*?)<\/script>/g)]
+    .map((m) => `'sha256-${createHash('sha256').update(m[1]).digest('base64')}'`)
+  const csp = [
+    "default-src 'self'",
+    `script-src 'self' ${hashes.join(' ')}`.trim(),
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data:",
+    "font-src 'self'",
+    "connect-src 'self'",
+    "media-src 'self'",
+    "manifest-src 'self'",
+    "worker-src 'self'",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    'upgrade-insecure-requests',
+  ].join('; ')
+  if (!html.includes('<head>')) continue
+  html = html.replace('<head>', `<head><meta http-equiv="Content-Security-Policy" content="${csp}">`)
+  writeFileSync(file, html)
+  pagesWithCsp++
+}
+console.log(`postbuild: sitemap, robots, 404 готовы; CSP добавлена на ${pagesWithCsp} страниц`)
