@@ -90,15 +90,3 @@ export function Steps({ items }: { items: { title: string; text: string }[] }) {
     </ol>
   )
 }
-
-/**
- * Боковая заметка: на широком экране вертикальная надпись на поле секции (читается снизу вверх),
- * на узком обычная строка с жёлтой чертой. Секции нужен position: relative (он задан у .section).
- */
-export function SideNote({ label, children }: { label: string; children: ReactNode }) {
-  return (
-    <aside className="side-note">
-      <span className="side-note__label">{label}</span> {children}
-    </aside>
-  )
-}

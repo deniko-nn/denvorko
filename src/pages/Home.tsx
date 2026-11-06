@@ -4,7 +4,8 @@ import { HoverLift } from '../components/HoverLift'
 import { Statement } from '../components/Statement'
 import { mockups } from '../components/Mockups'
 import { Seo } from '../components/Seo'
-import { Chips, Cta, Faq, SideNote, Steps } from '../components/ui'
+import { SideRing } from '../components/SideRing'
+import { Chips, Cta, Faq, Steps } from '../components/ui'
 import { cases } from '../data/cases'
 import { homeFaq } from '../data/faq'
 import { business, faqSchema, graph, person, website } from '../data/schema'
@@ -83,7 +84,8 @@ export default function Home() {
       </section>
 
       <section className="section" aria-labelledby="why-title">
-        <div className="container">
+        <div className="container why-layout">
+          <div className="why-main">
           <div className="section__head">
             <h2 id="why-title">Со мной просто договориться</h2>
             <p className="lead">Хороший сайт получается там, где исполнитель слушает и объясняет. Поэтому коммуникацию я считаю частью услуги.</p>
@@ -93,7 +95,8 @@ export default function Home() {
             <div><dt>Вы всегда знаете, что происходит</dt><dd>Каждую неделю показываю прогресс на рабочей версии и называю следующий шаг.</dd></div>
             <div><dt>Беру ответственность за результат</dt><dd>Если вижу, что задуманное не сработает, говорю об этом сразу и предлагаю лучший вариант.</dd></div>
           </dl>
-          <SideNote label="Мой подход">Сайт, который грузится дольше чайника, клиентов не согреет.</SideNote>
+          </div>
+          <SideRing text="Сайт, который грузится дольше чайника, клиентов не согреет" />
         </div>
       </section>
 
