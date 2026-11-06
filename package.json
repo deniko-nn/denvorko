@@ -30,7 +30,7 @@
     "@types/react-transition-group": "^4.4.12",
     "@vitejs/plugin-react": "^5.2.0",
     "patch-package": "^8.0.1",
-    "typescript": "^5.9.3",
+    "typescript": "^7.0.2",
     "vite": "^7.3.7"
   }
 }
