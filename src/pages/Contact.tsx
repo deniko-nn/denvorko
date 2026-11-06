@@ -2,6 +2,7 @@ import { useRef, useState, type FormEvent } from 'react'
 import { CSSTransition } from 'react-transition-group'
 import { Seo } from '../components/Seo'
 import { PageHero, Steps } from '../components/ui'
+import { TypedLine } from '../components/TypedLine'
 import { breadcrumb, business, graph } from '../data/schema'
 import { pageUrl, site } from '../data/site'
 
@@ -34,7 +35,9 @@ export default function Contact() {
         description="Свяжитесь с веб-разработчиком denvorko: опишите задачу и получите ответ в течение рабочего дня. Почта, Telegram и форма заявки."
         jsonLd={graph(breadcrumb('/contact', 'Контакты'), { '@type': 'ContactPage', url: pageUrl('/contact'), name: 'Контакты denvorko', mainEntity: { '@id': business['@id'] } }, business)} />
       <PageHero name="Контакты" title="Обсудим ваш проект"
-        lead="Опишите задачу своими словами. Я отвечу в течение рабочего дня, задам уточняющие вопросы и предложу решение со сроками и стоимостью." />
+        lead="Опишите задачу своими словами. Я отвечу в течение рабочего дня, задам уточняющие вопросы и предложу решение со сроками и стоимостью.">
+        <TypedLine prefix="Чаще всего пишут, когда нужен" phrases={['лендинг за 1–2 недели', 'интернет-магазин без комиссий маркетплейсов', 'личный кабинет для клиентов', 'сайт, который находят в поиске', 'быстрый сайт вместо медленного']} />
+      </PageHero>
 
       <section className="section section--alt" aria-labelledby="form-title">
         <div className="container">
