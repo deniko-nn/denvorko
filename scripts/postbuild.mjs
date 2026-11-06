@@ -1,5 +1,4 @@
 // После сборки: sitemap.xml, robots.txt, 404.html и .nojekyll для GitHub Pages.
-import { createHash } from 'node:crypto'
 import { copyFileSync, existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 
 const { url } = JSON.parse(readFileSync(new URL('../site.config.json', import.meta.url), 'utf8'))
@@ -20,32 +19,30 @@ if (!existsSync('dist/404.html') && existsSync('dist/404/index.html')) copyFileS
 
 
 // Политика безопасности (CSP) для каждой страницы. GitHub Pages не позволяет задавать HTTP-заголовки,
-// поэтому используем мета-тег. Встроенные скрипты (их три на странице) разрешаются по хэшу содержимого,
-// всё остальное только с этого же сайта. Данные JSON-LD не исполняются и политикой не затрагиваются.
+// поэтому используем мета-тег. Политика мягкая и не мешает работе страницы в разных браузерах и расширениях:
+// запрещает загрузку скриптов, стилей, шрифтов и данных с чужих сайтов, плагины (object), подмену базового
+// адреса и отправку форм наружу. Встроенные скрипты разрешены (без жёсткой привязки к хэшам).
 const walk = (dir) => readdirSync(dir).flatMap((n) => {
   const p = `${dir}/${n}`
   return statSync(p).isDirectory() ? walk(p) : [p]
 })
+const csp = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob:",
+  "font-src 'self' data:",
+  "connect-src 'self'",
+  "media-src 'self' data: blob:",
+  "worker-src 'self' blob:",
+  "manifest-src 'self'",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join('; ')
 let pagesWithCsp = 0
 for (const file of walk('dist').filter((f) => f.endsWith('.html'))) {
   let html = readFileSync(file, 'utf8')
-  const hashes = [...html.matchAll(/<script(?![^>]*\bsrc=)(?![^>]*application\/ld\+json)[^>]*>([\s\S]*?)<\/script>/g)]
-    .map((m) => `'sha256-${createHash('sha256').update(m[1]).digest('base64')}'`)
-  const csp = [
-    "default-src 'self'",
-    `script-src 'self' ${hashes.join(' ')}`.trim(),
-    "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data:",
-    "font-src 'self'",
-    "connect-src 'self'",
-    "media-src 'self'",
-    "manifest-src 'self'",
-    "worker-src 'self'",
-    "object-src 'none'",
-    "base-uri 'self'",
-    "form-action 'self'",
-    'upgrade-insecure-requests',
-  ].join('; ')
   if (!html.includes('<head>')) continue
   html = html.replace('<head>', `<head><meta http-equiv="Content-Security-Policy" content="${csp}">`)
   writeFileSync(file, html)

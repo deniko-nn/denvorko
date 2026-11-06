@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { AnimatePresence, LazyMotion, MotionConfig, m } from 'framer-motion'
+import { AnimatePresence, LazyMotion, MotionConfig, domAnimation, m } from 'framer-motion'
 import { useLocation, useOutlet } from 'react-router-dom'
 import { Footer } from './Footer'
 import { GlitchWipe, playGlitchWipe } from './GlitchWipe'
@@ -7,8 +7,6 @@ import { GridLines } from './GridLines'
 import { IntroParticles } from './IntroParticles'
 import { TopBar } from './TopBar'
 import { TopographyBackground } from './TopographyBackground'
-
-const loadMotionFeatures = () => import('../animations/motionFeatures').then((mod) => mod.default)
 
 const scrollToLocation = (hash: string) => {
   const el = hash ? document.getElementById(decodeURIComponent(hash.slice(1))) : null
@@ -39,7 +37,7 @@ export function Layout() {
   }, [])
 
   return (
-    <LazyMotion features={loadMotionFeatures}>
+    <LazyMotion features={domAnimation}>
     <MotionConfig reducedMotion="user">
       <IntroParticles />
       <TopographyBackground />
