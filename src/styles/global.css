@@ -578,7 +578,9 @@ html.menu-open body { overflow: hidden; }
   .slide .btn { min-height: 50px; padding: 0 14px; font-size: 0.72rem; letter-spacing: 0.14em; }
   .slide .btn-primary { padding-left: 26px; }
   .slide-title { font-size: clamp(1.25rem, 0.9rem + 1.9vw, 1.7rem); letter-spacing: 0.12em; }
-  .hero { padding-bottom: 28px; }
+  .hero { min-height: 0; padding-bottom: 28px; }
+  /* на телефоне высота первого экрана по текущему слайду: под кнопками нет пустого места, а стрелки наверху не прыгают */
+  .slide[aria-hidden="true"] { display: none; }
   .hero-hud { display: none; }
   .wf { height: clamp(130px, 22svh, 250px); }
 }

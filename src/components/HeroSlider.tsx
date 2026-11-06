@@ -5,6 +5,7 @@ import Magnet from '../animations/reactbits/Magnet'
 import SplitText from '../animations/reactbits/SplitText'
 import { site } from '../data/site'
 import { playGlitchWipe } from './GlitchWipe'
+import { ScrollTrigger } from '../animations/gsap'
 import { WireframeScene } from './WireframeScene'
 
 const slides = [
@@ -45,6 +46,12 @@ export function HeroSlider() {
   const [dir, setDir] = useState(1)
   const [glitch, setGlitch] = useState(0)
   const start = useRef<number | null>(null)
+
+  // высота первого экрана зависит от слайда: пересчитываем точки срабатывания эффектов при прокрутке ниже
+  useEffect(() => {
+    const id = requestAnimationFrame(() => ScrollTrigger.refresh())
+    return () => cancelAnimationFrame(id)
+  }, [i])
 
   const go = useCallback((n: number, d: number) => {
     setDir(d)
