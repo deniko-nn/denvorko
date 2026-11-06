@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import { useRef, type CSSProperties, type ReactNode } from 'react'
 import { gsap, prefersReducedMotion, useGSAP } from '../animations/gsap'
 import SpotlightCard from '../animations/reactbits/SpotlightCard'
-import { CtaRing } from './CtaRing'
 import { site } from '../data/site'
 import type { Qa } from '../data/faq'
 
@@ -44,12 +43,12 @@ export function Faq({ items }: { items: Qa[] }) {
 }
 
 /** React Bits SpotlightCard: подсветка в цвет акцента следует за курсором. */
-export function Cta({ title, text, label = 'Обсудить проект', ring = false }: { title: string; text: string; label?: string; ring?: boolean }) {
+export function Cta({ title, text, label = 'Обсудить проект' }: { title: string; text: string; label?: string }) {
   const vars = { '--spotlight-card-surface': 'var(--surface)', '--spotlight-card-border': 'var(--line)', '--spotlight-card-shadow': 'none' } as CSSProperties
   return (
     <section className="section" aria-labelledby="cta-title">
       <div className="container">
-        <SpotlightCard className={`cta${ring ? ' cta--ring' : ''}`} spotlightColor="var(--accent)" intensity={0.22} spotlightSize={320} style={vars}>
+        <SpotlightCard className="cta" spotlightColor="var(--accent)" intensity={0.22} spotlightSize={320} style={vars}>
           <div className="cta__inner">
             <div className="cta__text">
               <h2 id="cta-title">{title}</h2>
@@ -59,7 +58,6 @@ export function Cta({ title, text, label = 'Обсудить проект', ring
                 <a className="btn btn-ghost" href={site.telegram} rel="noopener">Написать в Telegram</a>
               </div>
             </div>
-            {ring && <CtaRing />}
           </div>
         </SpotlightCard>
       </div>
@@ -90,5 +88,17 @@ export function Steps({ items }: { items: { title: string; text: string }[] }) {
         <li key={s.title}><h3><span className="num" />{s.title}</h3><p>{s.text}</p></li>
       ))}
     </ol>
+  )
+}
+
+/**
+ * Боковая заметка: на широком экране вертикальная надпись на поле секции (читается снизу вверх),
+ * на узком обычная строка с жёлтой чертой. Секции нужен position: relative (он задан у .section).
+ */
+export function SideNote({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <aside className="side-note">
+      <span className="side-note__label">{label}</span> {children}
+    </aside>
   )
 }

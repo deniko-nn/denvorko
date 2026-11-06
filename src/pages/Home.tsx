@@ -4,7 +4,7 @@ import { HoverLift } from '../components/HoverLift'
 import { Statement } from '../components/Statement'
 import { mockups } from '../components/Mockups'
 import { Seo } from '../components/Seo'
-import { Chips, Cta, Faq, Steps } from '../components/ui'
+import { Chips, Cta, Faq, SideNote, Steps } from '../components/ui'
 import { cases } from '../data/cases'
 import { homeFaq } from '../data/faq'
 import { business, faqSchema, graph, person, website } from '../data/schema'
@@ -93,6 +93,7 @@ export default function Home() {
             <div><dt>Вы всегда знаете, что происходит</dt><dd>Каждую неделю показываю прогресс на рабочей версии и называю следующий шаг.</dd></div>
             <div><dt>Беру ответственность за результат</dt><dd>Если вижу, что задуманное не сработает, говорю об этом сразу и предлагаю лучший вариант.</dd></div>
           </dl>
+          <SideNote label="Мой подход">Сайт, который грузится дольше чайника, клиентов не согреет.</SideNote>
         </div>
       </section>
 
@@ -118,7 +119,7 @@ export default function Home() {
         </div>
       </section>
 
-      <Cta ring title="Расскажите о задаче, отвечу в течение рабочего дня" text="Напишите пару предложений о проекте: чем занимается бизнес и чего вы ждёте от сайта. Я предложу решение, сроки и стоимость." />
+      <Cta title="Расскажите о задаче, отвечу в течение рабочего дня" text="Напишите пару предложений о проекте: чем занимается бизнес и чего вы ждёте от сайта. Я предложу решение, сроки и стоимость." />
     </>
   )
 }
