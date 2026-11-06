@@ -5,7 +5,7 @@
 | Библиотека | Где на сайте |
 |---|---|
 | **GSAP** (`gsap.ts`) | Сборка слоёв каркасной модели и «разлёт» слоёв при смене слайда (`WireframeScene.tsx`); прорисовка линий шагов при прокрутке (`components/ui.tsx`) |
-| **React Bits** (`reactbits/`) | `SplitText`: заголовки слайдов появляются по буквам. `Magnet`: главная кнопка. `SpotlightCard`: блок призыва к действию. `Topography` (WebGL): фон всех страниц |
+| **React Bits** (`reactbits/`) | `SplitText`: заголовки слайдов появляются по буквам. `Magnet`: главная кнопка. `SpotlightCard`: блок призыва к действию. `Topography` (WebGL): фон всех страниц. `TextLoop`: кольцо из бегущего текста вокруг кнопки в блоке призыва на главной (`CtaRing.tsx`) |
 | **Framer Motion** | Смена страниц и слайдов, меню на весь экран (`Layout.tsx`, `TopBar.tsx`, `HeroSlider.tsx`), подъём карточек (`HoverLift.tsx`) |
 | **React Spring** | Наклон каркасной модели за курсором (`WireframeScene.tsx`) |
 | **Canvas 2D** (свой код) | Глитч-полоса при переходах и открытии меню (`GlitchWipe.tsx`), вступление с частицами (`IntroParticles.tsx`) |
