@@ -75,13 +75,13 @@ export function Chips({ items, label }: { items: string[]; label?: string }) {
   )
 }
 
-/** GSAP ScrollTrigger: акцентная линия над каждым шагом прорисовывается, когда шаг попадает в экран. */
+/** GSAP ScrollTrigger (scrub): жёлтая линия над шагом заполняется при прокрутке вниз и так же возвращается при прокрутке вверх. */
 export function Steps({ items }: { items: { title: string; text: string }[] }) {
   const ref = useRef<HTMLOListElement>(null)
   useGSAP(() => {
     if (prefersReducedMotion()) return
-    gsap.utils.toArray<HTMLElement>('li', ref.current).forEach((li, i) => {
-      gsap.fromTo(li, { '--p': 0 }, { '--p': 1, duration: 0.9, ease: 'power2.out', delay: (i % 4) * 0.08, scrollTrigger: { trigger: li, start: 'top 88%', once: true } })
+    gsap.utils.toArray<HTMLElement>('li', ref.current).forEach((li) => {
+      gsap.fromTo(li, { '--p': 0 }, { '--p': 1, ease: 'none', scrollTrigger: { trigger: li, start: 'top 92%', end: 'top 62%', scrub: 0.4 } })
     })
   }, { scope: ref })
   return (

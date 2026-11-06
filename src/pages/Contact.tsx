@@ -13,15 +13,20 @@ const next = [
   { title: 'Согласуем и стартуем', text: 'Подписываем договор, вношу предоплату в график и приступаю к работе.' },
 ]
 
+const types = ['Лендинг или сайт-визитка', 'Многостраничный сайт', 'Интернет-магазин', 'Веб-приложение или кабинет', 'Ускорение или доработка сайта', 'Пока не знаю, нужна консультация']
+const deadlines = ['Как можно скорее', 'В течение месяца', 'В течение 2–3 месяцев', 'Сроки не горят']
+
 export default function Contact() {
   const [status, setStatus] = useState('')
+  const [checked, setChecked] = useState(false)
   const statusRef = useRef<HTMLParagraphElement>(null)
 
   /** Собираем письмо и открываем почтовую программу. Замените на отправку в API, когда появится бэкенд. */
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const f = e.currentTarget
-    if (!f.reportValidity()) return
+    setChecked(true)
+    if (!f.checkValidity()) { f.querySelector<HTMLElement>(':invalid')?.focus(); return }
     const d = new FormData(f)
     const body = [`Имя: ${d.get('name')}`, `Как связаться: ${d.get('contact')}`, `Тип проекта: ${d.get('type')}`, `Сроки: ${d.get('deadline')}`, '', String(d.get('message'))].join('\n')
     setStatus(`Открываю почтовую программу с готовым письмом. Если ничего не произошло, напишите на ${site.email} или в Telegram.`)
@@ -44,25 +49,45 @@ export default function Contact() {
           <div className="contact-grid">
             <div>
               <h2 id="form-title" className="visually-hidden">Форма заявки</h2>
-              <form className="form" onSubmit={onSubmit} noValidate>
+              <form className={`form${checked ? ' was-validated' : ''}`} onSubmit={onSubmit} noValidate>
                 <div className="form-row">
-                  <div className="field"><label htmlFor="name">Как к вам обращаться</label><input id="name" name="name" type="text" autoComplete="name" required /></div>
-                  <div className="field"><label htmlFor="contact">Почта или Telegram</label><input id="contact" name="contact" type="text" autoComplete="email" required /></div>
+                  <div className="field">
+                    <input id="name" name="name" type="text" autoComplete="name" required placeholder=" " />
+                    <label htmlFor="name">Как к вам обращаться</label>
+                    <span className="field__error">Напишите, как к вам обращаться</span>
+                  </div>
+                  <div className="field">
+                    <input id="contact" name="contact" type="text" autoComplete="email" required placeholder=" " />
+                    <label htmlFor="contact">Почта или Telegram</label>
+                    <span className="field__error">Укажите, как с вами связаться</span>
+                  </div>
                 </div>
-                <div className="form-row">
-                  <div className="field"><label htmlFor="type">Что нужно сделать</label>
-                    <select id="type" name="type" required>
-                      <option>Лендинг или сайт-визитка</option><option>Многостраничный сайт</option><option>Интернет-магазин</option>
-                      <option>Веб-приложение или кабинет</option><option>Ускорение или доработка сайта</option><option>Пока не знаю, нужна консультация</option>
-                    </select></div>
-                  <div className="field"><label htmlFor="deadline">Когда нужен результат</label>
-                    <select id="deadline" name="deadline">
-                      <option>Как можно скорее</option><option>В течение месяца</option><option>В течение 2–3 месяцев</option><option>Сроки не горят</option>
-                    </select></div>
+
+                <fieldset className="choice">
+                  <legend>Что нужно сделать</legend>
+                  <div className="choice__opts">
+                    {types.map((t, i) => (
+                      <label className="opt" key={t}><input type="radio" name="type" value={t} defaultChecked={i === 0} /><span>{t}</span></label>
+                    ))}
+                  </div>
+                </fieldset>
+
+                <fieldset className="choice">
+                  <legend>Когда нужен результат</legend>
+                  <div className="choice__opts">
+                    {deadlines.map((t, i) => (
+                      <label className="opt" key={t}><input type="radio" name="deadline" value={t} defaultChecked={i === 0} /><span>{t}</span></label>
+                    ))}
+                  </div>
+                </fieldset>
+
+                <div className="field">
+                  <textarea id="message" name="message" required rows={4} placeholder=" " />
+                  <label htmlFor="message">О проекте</label>
+                  <span className="field__error">Опишите задачу в паре предложений</span>
+                  <span className="hint">Чем занимается бизнес, какая цель у сайта, есть ли примеры, которые нравятся.</span>
                 </div>
-                <div className="field"><label htmlFor="message">О проекте</label>
-                  <textarea id="message" name="message" required />
-                  <span className="hint">Чем занимается бизнес, какая цель у сайта, есть ли примеры, которые нравятся.</span></div>
+
                 <button className="btn btn-primary" type="submit">Отправить заявку</button>
                 <div role="status" className="form-status-wrap">
                   {/* React Transition Group: сообщение мягко появляется после отправки */}

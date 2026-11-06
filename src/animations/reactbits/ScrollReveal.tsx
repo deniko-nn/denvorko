@@ -1,5 +1,5 @@
 'use client';
-/* React Bits ScrollReveal. Изменено для сайта: тег контейнера задаётся пропсом tag (по умолчанию h2),
+/* React Bits ScrollReveal. Изменено для сайта: параметры rotationStart и wordAnimationStart (точка начала прокрутки); тег контейнера задаётся пропсом tag (по умолчанию h2),
    текст для скринридеров лежит в скрытом span (.visually-hidden) вместо aria-label. */
 
 import React, {
@@ -47,7 +47,9 @@ interface ScrollRevealProps {
   containerClassName?: string;
   textClassName?: string;
   tag?: ElementType;
+  rotationStart?: string;
   rotationEnd?: string;
+  wordAnimationStart?: string;
   wordAnimationEnd?: string;
 }
 
@@ -124,7 +126,9 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
   containerClassName = '',
   textClassName = '',
   tag: Tag = 'h2',
+  rotationStart = 'top bottom',
   rotationEnd = 'bottom bottom',
+  wordAnimationStart,
   wordAnimationEnd = 'bottom bottom'
 }) => {
   const containerRef = useRef<HTMLElement>(null);
@@ -269,7 +273,7 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
               scrollTrigger: {
                 trigger: el,
                 scroller,
-                start: 'top bottom',
+                start: rotationStart,
                 end: clampToScroll(rotationEnd),
                 scrub
               }
@@ -283,7 +287,7 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
           scrollTrigger: {
             trigger: el,
             scroller,
-            start: () => `top bottom-=${0.2 * Math.min(el.offsetHeight, viewportHeight())}`,
+            start: wordAnimationStart ?? (() => `top bottom-=${0.2 * Math.min(el.offsetHeight, viewportHeight())}`),
             end: clampToScroll(wordAnimationEnd),
             scrub
           }
@@ -333,7 +337,9 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
     baseOffset,
     stagger,
     smoothing,
+    rotationStart,
     rotationEnd,
+    wordAnimationStart,
     wordAnimationEnd
   ]);
 

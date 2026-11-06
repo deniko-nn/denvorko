@@ -5,6 +5,7 @@ import ScrollReveal from '../animations/reactbits/ScrollReveal'
 
 /**
  * React Bits ScrollReveal: крупное утверждение, слова которого проявляются из размытия по мере прокрутки.
+ * Начало прокрутки-триггера: чуть выше центра окна (на 20 px), чтобы эффект успевал попасть в кадр.
  * При выключенных анимациях (и при «уменьшить движение», это учитывает сам компонент) показывается обычный текст.
  */
 export function Statement({ children }: { children: string }) {
@@ -22,7 +23,8 @@ export function Statement({ children }: { children: string }) {
           ? <p className="scroll-reveal"><span className="scroll-reveal-text">{children}</span></p>
           : (
             <ScrollReveal tag="p" mode="scrub" splitBy="words" effect="fade" stagger={0.05} duration={0.8} smoothing={0}
-              baseOpacity={0.1} baseRotation={3} baseOffset={0} enableBlur blurStrength={4}>
+              baseOpacity={0.1} baseRotation={3} baseOffset={0} enableBlur blurStrength={4}
+              rotationStart="top center-=20" rotationEnd="bottom center-=20" wordAnimationStart="top center-=20" wordAnimationEnd="bottom center-=20">
               {children}
             </ScrollReveal>
           )}
