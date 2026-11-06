@@ -679,3 +679,7 @@ html.motion-off .grid-lines { opacity: 0.6; }
 .typed-line__text { color: var(--accent); font-weight: 500; }
 .typed-line .text-type__cursor { color: var(--accent); }
 @media (max-width: 640px) { .typed-line { min-height: 6.4em; } }
+
+/* Манифест (React Bits ScrollReveal) */
+.statement .scroll-reveal { margin: 0; max-width: 980px; }
+.statement .scroll-reveal-text { font-family: var(--font-display); font-weight: 300; letter-spacing: 0.03em; font-size: clamp(1.5rem, 0.9rem + 2.7vw, 2.9rem); line-height: 1.35; color: var(--text); }

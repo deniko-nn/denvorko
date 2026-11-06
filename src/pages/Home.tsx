@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { HeroSlider } from '../components/HeroSlider'
 import { HoverLift } from '../components/HoverLift'
+import { Statement } from '../components/Statement'
 import { mockups } from '../components/Mockups'
 import { Seo } from '../components/Seo'
 import { Chips, Cta, Faq, Steps } from '../components/ui'
@@ -27,6 +28,8 @@ export default function Home() {
       />
 
       <HeroSlider />
+
+      <Statement>Хороший сайт — это не просто красивая картинка. Это рабочий инструмент: он быстро открывается, его находят в поиске, и он приводит клиентов, пока вы занимаетесь своим делом.</Statement>
 
       <section className="section section--alt" aria-labelledby="services-title">
         <div className="container">
