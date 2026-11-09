@@ -1,0 +1,38 @@
+name: Strix security scan
+
+# Ручной запуск: Actions → Strix security scan → Run workflow.
+# Нужны секреты репозитория STRIX_LLM и LLM_API_KEY (Settings → Secrets and variables → Actions).
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Режим сканирования
+        type: choice
+        default: quick
+        options: [quick, standard, deep]
+
+permissions:
+  contents: read
+
+jobs:
+  strix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Strix
+        run: pipx install strix-agent
+      - name: Run scan
+        env:
+          STRIX_LLM: ${{ secrets.STRIX_LLM }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+        run: strix -n -t ./ --scan-mode "${{ inputs.mode }}" --fail-on high
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: strix-report
+          path: strix_runs/
+          if-no-files-found: ignore
