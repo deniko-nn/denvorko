@@ -31,7 +31,7 @@ jobs:
         run: strix -n -t ./ --scan-mode "${{ inputs.mode }}" --fail-on high
       - name: Upload report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: strix-report
           path: strix_runs/
