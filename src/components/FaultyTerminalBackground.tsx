@@ -30,12 +30,12 @@ export function FaultyTerminalBackground() {
     <div className={`faulty-bg${Terminal && !motionOff ? ' is-ready' : ''}`} aria-hidden="true">
       {Terminal && !motionOff && (
         <Terminal
-          tint="#A7EF9E"
+          tint="#b9c2ff"
           glyphs="blocks"
           scale={1.5}
           digitSize={1.2}
           timeScale={0.5}
-          brightness={0.6}
+          brightness={0.42}
           glow={0}
           persistence={0}
           mouseStrength={0.5}

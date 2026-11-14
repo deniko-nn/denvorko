@@ -418,7 +418,7 @@ a.row:hover h3 { color: var(--link); }
 /* ---------- Анимации ---------- */
 /* Фон FaultyTerminal (пробный): тот же слой, что и у Topography */
 .faulty-bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; }
-.faulty-bg.is-ready { opacity: 0.7; }
+.faulty-bg.is-ready { opacity: 0.6; }
 .faulty-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, color-mix(in srgb, var(--bg) 40%, transparent), color-mix(in srgb, var(--bg) 22%, transparent) 40%, color-mix(in srgb, var(--bg) 50%, transparent)); }
 /* Фон Topography: фиксированный слой под всем содержимым */
 .topo-bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; }
