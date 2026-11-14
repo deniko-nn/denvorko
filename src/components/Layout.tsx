@@ -6,7 +6,7 @@ import { GlitchWipe, playGlitchWipe } from './GlitchWipe'
 import { GridLines } from './GridLines'
 import { IntroParticles } from './IntroParticles'
 import { TopBar } from './TopBar'
-import { TopographyBackground } from './TopographyBackground'
+import { FaultyTerminalBackground } from './FaultyTerminalBackground'
 
 const scrollToLocation = (hash: string) => {
   const el = hash ? document.getElementById(decodeURIComponent(hash.slice(1))) : null
@@ -40,7 +40,7 @@ export function Layout() {
     <LazyMotion features={domAnimation}>
     <MotionConfig reducedMotion="user">
       <IntroParticles />
-      <TopographyBackground />
+      <FaultyTerminalBackground />
       <GridLines />
       <GlitchWipe />
       <a className="skip" href="#main">Перейти к содержимому</a>

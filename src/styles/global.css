@@ -416,6 +416,10 @@ a.row:hover h3 { color: var(--link); }
 .notfound .big { font-family: var(--font-display); color: var(--accent); font-size: clamp(3rem, 12vw, 7rem); font-weight: 500; line-height: 1; }
 
 /* ---------- Анимации ---------- */
+/* Фон FaultyTerminal (пробный): тот же слой, что и у Topography */
+.faulty-bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; }
+.faulty-bg.is-ready { opacity: 0.7; }
+.faulty-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, color-mix(in srgb, var(--bg) 40%, transparent), color-mix(in srgb, var(--bg) 22%, transparent) 40%, color-mix(in srgb, var(--bg) 50%, transparent)); }
 /* Фон Topography: фиксированный слой под всем содержимым */
 .topo-bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; }
 .topo-bg.is-ready { opacity: 0.55; }
@@ -446,7 +450,7 @@ a.row:hover h3 { color: var(--link); }
     --text: #000; --muted: #333; --accent: #0b6657; --link: #0b6657; --grid: transparent;
   }
   body { font-size: 11pt; background: #fff; color: #000; }
-  .topo-bg, .site-footer, .cta, .btn-row, .skip, .no-print, .page-hero::before { display: none !important; }
+  .topo-bg, .faulty-bg, .site-footer, .cta, .btn-row, .skip, .no-print, .page-hero::before { display: none !important; }
   .section, .page-hero { padding-block: 16pt; }
   .section--alt { background: #fff; border: 0; }
   a { color: #000; text-decoration: none; }
